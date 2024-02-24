@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:paddingBottom="10dp"
+    android:background="@drawable/bg_item_fb"
+    android:layout_height="wrap_content" >
+
+
+
+        <ImageView
+            android:id="@+id/img_avarta_fb"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_margin="10dp"
+            android:background="@color/header_color"
+            android:text="CPNo" />
+
+        <TextView
+            android:id="@+id/tv_fb_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/img_avarta_fb"
+            android:text="@string/value"
+            android:textSize="@dimen/font_size_cplist"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_invite"
+            android:layout_height="35dp"
+            android:layout_width="35dp"
+            android:background="@drawable/iconadd"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" 
+            android:layout_marginRight="20dp"
+            />
+
+</RelativeLayout>

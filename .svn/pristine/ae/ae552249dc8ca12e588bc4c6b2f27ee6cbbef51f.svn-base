@@ -1,0 +1,47 @@
+package com.anfroid.activity;
+
+import com.android.tmg.R;
+import com.android.tmg.R.layout;
+import com.android.tmg.R.menu;
+
+import android.os.Bundle;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.view.Menu;
+import android.view.MenuItem;
+
+public class Activity1 extends Activity {
+
+	private ActionBar ab;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_activity1);
+
+		ab = getActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.activity1, menu);
+		return true;
+	}
+
+}

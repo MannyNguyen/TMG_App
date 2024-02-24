@@ -1,0 +1,180 @@
+package com.android.activity;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.ctyprosoft.tmg.R;
+
+import prosoft.android.utility.API;
+import prosoft.android.utility.GetJsonFromAPI;
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+
+public class RegisterActivity extends Activity {
+	Context context = this;
+	Spinner spinnerGender,spinnerM,spinnerD;
+	EditText name,email,phone,yeard;
+	public Dialog waitingDialog;
+	String txtname,txtemail,txtphone,txtgender,txtmonth,txtyeard,txtday,txtbirthday,txtdeviceId,txtsystem,txttoken;
+	@SuppressLint("NewApi")
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.register);
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+		StrictMode.setThreadPolicy(policy); 
+		innitVariables();
+		/*
+		 * Action Bar
+		 */
+		ActionBar ab = getActionBar();
+		ab.setTitle(getResources().getString(R.string.titleActionBarReg));
+		ab.setDisplayHomeAsUpEnabled(true);
+	}
+	private void innitVariables()
+	{
+		
+		waitingDialog = new Dialog(context);
+		waitingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		waitingDialog.setContentView(R.layout.waitingdialog);
+		waitingDialog.setCancelable(false);
+		
+		spinnerGender = (Spinner) findViewById(R.id.spinner_gender);
+		spinnerM = (Spinner) findViewById(R.id.spinner_month);
+		spinnerD = (Spinner) findViewById(R.id.spinner_day);
+		addItemsOnSpinners();
+		name  = (EditText)findViewById(R.id.input_name);
+		email = (EditText)findViewById(R.id.input_email_reg);
+		phone = (EditText)findViewById(R.id.input_phone_reg);
+		yeard = (EditText)findViewById(R.id.edit_yeard);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	// add items into spinner dynamically
+	public void addItemsOnSpinners() {
+
+		List<String> list = new ArrayList<String>(Arrays.asList(getResources()
+				.getStringArray(R.array.gender)));
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, list);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		List<String> list_month = new ArrayList<String>(Arrays.asList(getResources()
+				.getStringArray(R.array.month)));
+		ArrayAdapter<String> dataAdapter_month = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, list_month);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		List<String> list_day = new ArrayList<String>(Arrays.asList(getResources()
+				.getStringArray(R.array.day
+						)));
+		ArrayAdapter<String> dataAdapter_day = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, list_day);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		spinnerGender.setAdapter(dataAdapter);
+		spinnerM.setAdapter(dataAdapter_month);
+		spinnerD.setAdapter(dataAdapter_day);
+	}
+
+	@SuppressWarnings("unused")
+	private void getvaluesInput() {
+		txtname = name.getText().toString();
+		txtemail = email.getText().toString();
+		txtphone = phone.getText().toString();
+		txtmonth = spinnerM.getSelectedItem().toString();
+		txtday = spinnerD.getSelectedItem().toString();
+		txtyeard = yeard.getText().toString();
+		txtgender = spinnerGender.getSelectedItem().toString();
+		if(txtname.equals(""))
+			prosoft.android.utility.Utility.showDialog(context, "Name can't null");
+		else if (txtemail.equals(""))
+			prosoft.android.utility.Utility.showDialog(context, "Email can't null");
+		else if (txtphone.equals(""))
+			prosoft.android.utility.Utility.showDialog(context, "Phone can't null");
+		else if (txtgender.equals("Giới tính") || txtgender.equals("Gender"))
+			prosoft.android.utility.Utility.showDialog(context, "Gender can't null");
+		else if (txtyeard.equals(""))
+			prosoft.android.utility.Utility.showDialog(context, "Birthday can't null");
+		else
+			new backgroungRegister().execute();
+		
+	}
+	public void Submit(View view)
+	{
+		try {
+			getvaluesInput();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	private void toast(String sms)
+	{
+		Toast.makeText(context, sms, 400).show();
+	}
+	class backgroungRegister extends AsyncTask<String, Void, String>
+	{
+		
+		String status= "";
+		
+//		RegisterOject ro = new RegisterOject(name.getText().toString(), email.getText().toString(), phone.getText().toString(),
+//				spinnerGender.getSelectedItem().toString(), birthday, "", "", "");
+		
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			waitingDialog.show();
+		}
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			status = GetJsonFromAPI.callregister(API.registerString("ThaiTam", "abc", "123", "nam", "02/05/1990", "123456", 
+					"AndroidV4.0", "12345678"));
+			
+			return null;
+		}
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			waitingDialog.cancel();
+			toast(status);
+		}
+		
+	}
+	private void checkValidReg()
+	{
+		
+	}
+}

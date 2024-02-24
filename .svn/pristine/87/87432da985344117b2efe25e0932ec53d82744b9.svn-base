@@ -1,0 +1,121 @@
+package adapter;
+
+import java.util.ArrayList;
+
+import lazyloadimagesfromurl.ImageLoader;
+
+import object.RowItem;
+import prosoft.android.utility.BadgeView;
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.android.activity.MainActivity;
+import com.ctyprosoft.tmg.R;
+
+public class CustomListViewAdapter extends ArrayAdapter<RowItem> {
+
+	Context context;
+	BadgeView badge;
+	ArrayList<RowItem> items;
+
+	public CustomListViewAdapter(Context context, int resourceId,
+			ArrayList<RowItem> items) {
+		super(context, resourceId, items);
+		this.context = context;
+		this.items = items;
+	}
+
+	@Override
+	public boolean areAllItemsEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled(int position) {
+		if (!items.get(position).getIsHeader())
+			return true;
+		else
+			return false;
+	}
+
+	public View getView(int position, View convertView, ViewGroup parent) {
+		ImageView imageView = null;
+		RowItem rowItem = getItem(position);
+
+		LayoutInflater mInflater = (LayoutInflater) context
+				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		if (position == 0)
+			convertView = mInflater.inflate(R.layout.list_item_fist, null);
+		else {
+			convertView = mInflater.inflate(R.layout.list_item, null);
+			TextView content = (TextView) convertView
+					.findViewById(R.id.content);
+			// txtHot = (TextView) convertView.findViewById(R.id.tv_hot);
+			imageView = (ImageView) convertView.findViewById(R.id.icon);
+
+			content.setText(rowItem.getContent());
+
+			if (rowItem.getImageId() == 1) { // Mobile Ad list
+				try {
+					ImageLoader imageLoader = new ImageLoader(context);
+					imageLoader.DisplayImage(
+							MainActivity.mobileADs.get(position - 6)
+									.getThumbImg(), imageView);
+
+				} catch (Exception e) {
+					imageView.setImageResource(R.drawable.monila_campaign);
+				}
+			} else
+				imageView.setImageResource(rowItem.getImageId());
+
+			if (items.get(position).getIsHeader()) { // Set for Header Item
+				if (position != 1)
+					convertView.findViewById(R.id.divider_item).setVisibility(
+							View.VISIBLE);
+				convertView.findViewById(R.id.icon).setVisibility(View.GONE);
+				content.setTypeface(null, Typeface.NORMAL);
+				int color = Color.parseColor("#7C7C7C");
+				content.setTextColor(color);
+			}
+		}
+
+		// if(position == 8)
+		// holder.txtHot.setVisibility(View.VISIBLE);
+		if (position == 4) {
+			badge = new BadgeView(context, imageView);
+			badge.setText("1");
+			badge.setBadgePosition(0);
+			badge.show(true);
+		}
+
+		if (position == 5) {
+			badge = new BadgeView(context, imageView);
+			badge.setText("2");
+			badge.setBadgePosition(0);
+			badge.setBadgeBackgroundColor(Color.parseColor("#4bc1d2"));
+			Animation fadeIn = new AlphaAnimation(0, 1);
+			fadeIn.setInterpolator(new DecelerateInterpolator());
+			fadeIn.setDuration(2000);
+			fadeIn.setRepeatCount(Animation.INFINITE);
+			badge.show();
+			badge.setAnimation(fadeIn);
+		}
+
+		// Class<?> c = MainActivity.class;
+
+		return convertView;
+	}
+
+}

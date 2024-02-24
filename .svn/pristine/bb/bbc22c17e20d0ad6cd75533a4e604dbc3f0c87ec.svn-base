@@ -1,0 +1,152 @@
+package fragment;
+
+import java.util.ArrayList;
+
+import object.News;
+import prosoft.android.utility.BadgeView;
+import android.content.res.Resources;
+import android.graphics.AvoidXfermode.Mode;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
+import eu.erikw.PullToRefreshListView;
+import eu.erikw.PullToRefreshListView.OnRefreshListener;
+
+import com.ctyprosoft.tmg.R;
+import com.plattysoft.ui.GridItemClickListener;
+
+public class JonHenryFragment extends Fragment implements OnItemClickListener, OnScrollListener,GridItemClickListener, OnRefreshListener, OnClickListener {
+
+	// /////////////////////////////////////////////////////////
+	// News Page
+	// /////////////////////////////////////////////////////////
+	private static int currentPage = 1;
+	private static int positionGridView = 1;
+	int firstVisiblePosition;
+	int visibleItem;
+	int totalItem;
+	private static int totalPage = 0;
+	ArrayList<News> news;
+	public static Resources res;
+	private adapter.ListAsGridExampleAdapter mAdapter;
+	PullToRefreshListView gridView;
+	
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		View rootView = inflater.inflate(R.layout.fragment_top_rated,
+				container, false);
+		res = getResources();
+		
+		View header = View.inflate( getActivity(), R.layout.item_new_header, null);
+		ImageView headerButton = (ImageView)header.findViewById(R.id.image2);
+		headerButton.setOnClickListener(this);
+		
+		/*addDataForNewsPage();
+		
+		
+		
+		Log.d("TAG", " size: " + news.size());
+		gridView = (PullToRefreshListView) rootView.findViewById(R.id.listView);
+		
+		gridView.addHeaderView(header);
+		mAdapter = new adapter.ListAsGridExampleAdapter(getActivity()
+				.getApplicationContext(), R.layout.grid_view_news_page_item,
+				news);
+		mAdapter.setOnGridClickListener(this);
+		mAdapter.setNumColumns(2);
+		gridView.setAdapter(mAdapter);
+		gridView.setOnRefreshListener(this);
+		gridView.setOnScrollListener(this);*/
+		
+			
+		return rootView;
+	}
+
+	// ///////////////////////////////////////////
+	// Test for News Page
+	// ///////////////////////////////////////////
+	private void addDataForNewsPage() {
+		int[] images = {R.drawable.jon10, R.drawable.jon2,
+				R.drawable.jon3, R.drawable.jon10,};
+		news = new ArrayList<News>();
+		for (int i = 0; i < 4; i++) {
+			
+			Log.d("TAG", "j:" + i);
+			news.add(new News(String.valueOf(i), "This is news_title " + i,
+					"news content " + i, images[i]));
+		}
+
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View v, int pos, long id) {
+		// TODO Auto-generated method stub
+		Toast.makeText(getActivity(),
+				" Pos: " + pos,
+				Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
+		// TODO Auto-generated method stub
+		System.out.println("firstVisibleItem="+firstVisibleItem + "  visibleItemCount=" + visibleItemCount
+				+ "  totalItemCount=" + totalItemCount);
+		firstVisiblePosition = firstVisibleItem;
+		totalItem = totalItemCount;
+		visibleItem = visibleItemCount;
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// TODO Auto-generated method stub
+		boolean flag = (currentPage == totalPage + 1);
+		System.out.println("currentPage="+currentPage + " totalPage=" + totalPage + "  flag=" + flag);
+		if (firstVisiblePosition == (totalItem - visibleItem)
+				&& scrollState == 0 && flag == false) {
+			currentPage++;
+			System.out.println("currentPage " + currentPage);
+			positionGridView = totalItem - visibleItem;
+		}
+	}
+
+	@Override
+	public void onGridItemClicked(View v, int position, long itemId) {
+		Toast.makeText(getActivity(), "Item clicked: "+mAdapter.getItemId(position), Toast.LENGTH_SHORT).show();
+	}
+	
+	@Override
+	public void onRefresh() {
+		// TODO Auto-generated method stub
+		toast("refresh");
+		gridView.onRefreshComplete();
+	}
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.image2:
+			toast("First Item clicked");
+			break;
+
+		default:
+			break;
+		}
+	}
+	private void toast(String sms)
+	{
+		Toast.makeText(getActivity(), sms, Toast.LENGTH_SHORT).show();
+	}
+}

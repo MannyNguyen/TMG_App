@@ -1,0 +1,226 @@
+package com.android.tmg;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.android.activity.MainActivity;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.FacebookError;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.FacebookDialog;
+import com.facebook.widget.LoginButton;
+
+public class LoginMenuActivity extends Activity implements OnClickListener {
+	Context context = this;
+	LoginButton btn_fb_login;
+	/*
+	 * Variable Facebook Login
+	 */
+	private static List<String> PERMISSIONS = Arrays.asList("publish_actions");
+	private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
+	private boolean pendingPublishReauthorization = false;
+	public static Facebook facebook;
+	private FacebookDialog.Callback dialogCallback = new FacebookDialog.Callback() {
+		@Override
+		public void onError(FacebookDialog.PendingCall pendingCall,
+				Exception error, Bundle data) {
+			Log.d("HelloFacebook", String.format("Error: %s", error.toString()));
+		}
+
+		@Override
+		public void onComplete(FacebookDialog.PendingCall pendingCall,
+				Bundle data) {
+			Log.d("HelloFacebook", "Success!");
+		}
+	};
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.login_menu);
+		initVariables();
+		btn_fb_login = (LoginButton) findViewById(R.id.login_button);
+		btn_fb_login.setOnClickListener(this);
+	}
+	
+	@Override
+	 public void onSaveInstanceState(Bundle outState) {
+	     super.onSaveInstanceState(outState);
+	     outState.putBoolean(PENDING_PUBLISH_KEY, pendingPublishReauthorization);
+	 }
+	 @Override
+     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+          super.onActivityResult(requestCode, resultCode, data);
+          Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+      }
+	 
+	 @SuppressWarnings("unused")
+	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+	        if (state.isOpened()) {
+	        	System.out.println("state.isOpened()");
+	           
+	        }
+	    }
+
+	@SuppressLint("NewApi")
+	private void initVariables()
+	{
+		ActionBar ab = getActionBar();
+		ab.hide();
+		
+	}
+	private void changelanguage(String language)
+	{
+		String languageToLoad  = language; // your language
+	    Locale locale = new Locale(languageToLoad); 
+	    Locale.setDefault(locale);
+	    Configuration config = new Configuration();
+	    config.locale = locale;
+	    getBaseContext().getResources().updateConfiguration(config, 
+	    getBaseContext().getResources().getDisplayMetrics());
+	}
+	@SuppressWarnings({ "deprecation", "unused" })
+	private void inviteFromFacebook(Activity activity, List<GraphUser> list) {
+        for(int i=0; i<list.size(); i++) {
+            //TODO post invite to friends wall
+//          Log.v("MainActivity", "user id: " + user.getId());
+
+            if(list == null || list.size() == 0)        
+                return;
+
+            Bundle parameters = new Bundle();
+
+            String friendsIdsInFormat = "";
+
+            friendsIdsInFormat = friendsIdsInFormat + list.get(i).getId();
+
+            parameters.putString("to", friendsIdsInFormat);
+            parameters.putString( "message", "Use my app!");
+
+            Facebook mFacebook = new Facebook( getResources().getString(R.string.faceId));
+            // Show dialog for invitation
+            mFacebook.dialog(activity, "apprequests", parameters, new Facebook.DialogListener() {
+                @Override
+                public void onComplete(Bundle values) {
+                    // TODO Auto-generated method stub
+
+                }
+
+
+                @Override
+                public void onCancel() {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void onFacebookError(FacebookError e) {
+                    // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void onError(DialogError e) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+        }
+    }
+	public void SignInWithFace() {
+		// start Facebook Login
+		Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+			// callback when session changes state
+			@SuppressWarnings("deprecation")
+			@Override
+			public void call(Session session, SessionState state,
+					Exception exception) {
+				if (session.isOpened()) {
+
+					// make request to the /me API
+					Request.executeMeRequestAsync(session,
+							new Request.GraphUserCallback() {
+
+								@Override
+								public void onCompleted(GraphUser user,
+										Response response) {
+									// TODO Auto-generated method stub
+									if (user != null) {
+//										SharePreferance share = new SharePreferance(context);
+//										share.setStatusLogged(true);
+//										GotoMainPage();
+//										List<GraphUser> list = new ArrayList<GraphUser>();
+//										list.add(user);
+//										inviteFromFacebook(LoginMenuActivity.this,list);
+									}
+								}
+							});
+				}
+			}
+		});
+	}
+
+	public void GotoMainPage(View view) {
+		Intent it = new Intent(context, MainActivity.class);
+		startActivity(it);
+		finish();
+	}
+
+	private void toast(String sms) {
+		Toast.makeText(context, sms, Toast.LENGTH_LONG).show();
+	}
+
+	public void login(View view)
+	{
+		changelanguage("en");
+		setContentView(R.layout.login_menu);
+		EditText email = (EditText)findViewById(R.id.input_email);
+		EditText phone = (EditText)findViewById(R.id.input_phone);
+		if(email.getText().toString().equals("") || !checkEmailValid(email.getText().toString(),"@")
+				|| !checkEmailValid(email.getText().toString(),".com"))
+			toast("your email invalid");
+			
+	}
+
+	public boolean checkEmailValid(String string, String charac) {
+		return string.indexOf(charac) > -1;
+	}
+
+	public void GoToRegister(View view) {
+		startActivity(new Intent(context, RegisterActivity.class));
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.login_button:
+			SignInWithFace();
+			break;
+
+		default:
+			break;
+		}
+	}
+}

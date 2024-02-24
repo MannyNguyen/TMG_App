@@ -1,0 +1,75 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:weightSum="10" >
+
+	<View
+	    android:id="@+id/view"
+	    android:layout_height="5dp"
+	    android:layout_centerVertical="true"
+	    android:layout_width="fill_parent"
+	    />
+	<TextView
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/view"
+	    android:gravity="center_horizontal"
+	    android:textSize="@dimen/font_size_no_internet_large"
+	    android:text="@string/datanetwork"
+	    android:layout_marginLeft="20dp"
+	    android:layout_marginRight="20dp"
+	    android:textColor="@color/gray"
+	    />
+	
+	<TextView
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/view"
+	    android:gravity="center_horizontal"
+	    android:textSize="@dimen/font_size_no_internet_medium"
+	    android:text="@string/checkyoutconnection"
+	    android:layout_marginLeft="20dp"
+	    android:layout_marginRight="20dp"
+	    />
+	<LinearLayout 
+	    android:layout_height="wrap_content"
+	    android:layout_width="fill_parent"
+	    android:orientation="horizontal"
+	    android:layout_alignParentBottom="true"
+	    android:layout_marginBottom="30dp"
+	    android:weightSum="10"
+	    >
+		<View
+		    android:layout_height="3dp"
+		    android:layout_width="0dp"
+		    android:layout_weight="2" 
+		    />
+		<LinearLayout
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="3" >
+			<Button
+			    android:id="@+id/btn_setting"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:text="@string/setting" />
+
+		</LinearLayout>
+		
+		<LinearLayout
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="3" >
+			<Button
+			    android:id="@+id/btn_exit"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:text="@string/exit" />
+
+		</LinearLayout>
+	    
+	</LinearLayout>
+</RelativeLayout>

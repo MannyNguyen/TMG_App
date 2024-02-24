@@ -1,0 +1,293 @@
+package com.android.activity;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.ctyprosoft.tmg.LoginMenuActivity;
+import com.ctyprosoft.tmg.R;
+
+import prosoft.android.utility.API;
+import prosoft.android.utility.GetJsonFromAPI;
+import prosoft.android.utility.SharePreferance;
+import prosoft.android.utility.Utility;
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.provider.Settings.Secure;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class RegisterActivity extends Activity {
+	Context context = this;
+	Spinner spinnerGender, spinnerM, spinnerD;
+	EditText name, email, phone, yeard;
+	public Dialog waitingDialog;
+	String txtname, txtemail, txtphone, txtgender, txtmonth, txtyeard, txtday,
+			txtbirthday, txtdeviceId, txtsystem, txttoken;
+	SharePreferance share;
+
+	@SuppressLint("NewApi")
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.register);
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+				.permitAll().build();
+
+		StrictMode.setThreadPolicy(policy);
+		innitVariables();
+		/*
+		 * Action Bar
+		 */
+		initActionbar();
+		if (share.getclickLoginFB())
+			fillform();
+	}
+
+	private void initActionbar() {
+		ActionBar actionBar = getActionBar();
+		actionBar
+				.setTitle(getResources().getString(R.string.titleActionBarReg));
+		View iconHome = View.inflate(context, R.layout.custom_actionbar_back,
+				null);
+		ImageView img = (ImageView) iconHome.findViewById(R.id.image2);
+		img.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+		TextView tv_label = (TextView) iconHome.findViewById(R.id.tv_label);
+		tv_label.setText(getResources().getString(R.string.coupon));
+
+		actionBar.setLogo(new ColorDrawable(Color.TRANSPARENT));
+
+		actionBar.setCustomView(iconHome);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(true);
+	}
+
+	private void fillform() {
+		name.setText(LoginMenuActivity.rg.getName());
+		email.setText(LoginMenuActivity.rg.getEmail());
+		try {
+			
+		
+		if (LoginMenuActivity.rg.getGender().equals("male")
+				|| LoginMenuActivity.rg.getGender().equals("name"))
+			spinnerGender.setSelection(01);
+		else
+			spinnerGender.setSelection(02);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		try {
+			String[] day = LoginMenuActivity.rg.getBirthday().split("/");
+			String _month = day[0];
+			String _day = day[1];
+			String _yeard = day[2];
+			yeard.setText(_yeard);
+			spinnerM.setSelection(Integer.parseInt(_month) - 1);
+			spinnerD.setSelection(Integer.parseInt(_day) - 1);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		phone.setFocusableInTouchMode(true);
+		phone.requestFocus();
+	}
+
+	private void innitVariables() {
+		share = new SharePreferance(context);
+		waitingDialog = new Dialog(context);
+		waitingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		waitingDialog.setContentView(R.layout.waitingdialog);
+		waitingDialog.setCancelable(false);
+
+		spinnerGender = (Spinner) findViewById(R.id.spinner_gender);
+		spinnerM = (Spinner) findViewById(R.id.spinner_month);
+		spinnerD = (Spinner) findViewById(R.id.spinner_day);
+		addItemsOnSpinners();
+		name = (EditText) findViewById(R.id.input_name);
+		email = (EditText) findViewById(R.id.input_email_reg);
+		phone = (EditText) findViewById(R.id.input_phone_reg);
+		yeard = (EditText) findViewById(R.id.edit_yeard);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private void getvaluesInput() {
+		txtname = name.getText().toString();
+		txtemail = email.getText().toString();
+		txtphone = phone.getText().toString();
+		txtmonth = spinnerM.getSelectedItem().toString();
+		txtday = spinnerD.getSelectedItem().toString();
+		txtyeard = yeard.getText().toString();
+		txtgender = spinnerGender.getSelectedItem().toString();
+		if (txtname.equals(""))
+			prosoft.android.utility.Utility.showDialog(context,
+					"Name can't null");
+		else if (txtemail.equals(""))
+			prosoft.android.utility.Utility.showDialog(context,
+					"Email can't null");
+		else if (txtphone.equals(""))
+			prosoft.android.utility.Utility.showDialog(context,
+					"Phone can't null");
+		else if (txtphone.length() > 12 || txtphone.length() < 10)
+			prosoft.android.utility.Utility.showDialog(context,
+					"Phone number invalid");
+		else if (txtgender.equals(getResources().getString(R.string.gender)))
+			prosoft.android.utility.Utility.showDialog(context,
+					"Gender can't null");
+		else if (txtyeard.equals(""))
+			prosoft.android.utility.Utility.showDialog(context,
+					"Birthday can't null");
+		else if (txtyeard.length() < 3 || txtyeard.length() > 4)
+			prosoft.android.utility.Utility.showDialog(context,
+					"Birthday can't null");
+		else
+			new backgroungRegister().execute();
+
+	}
+
+	public void Submit(View view) {
+		try {
+			getvaluesInput();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+
+	class backgroungRegister extends AsyncTask<String, Void, String> {
+
+		String status = "";
+		boolean loginstatus;
+		// RegisterOject ro = new RegisterOject(name.getText().toString(),
+		// email.getText().toString(), phone.getText().toString(),
+		// spinnerGender.getSelectedItem().toString(), birthday, "", "", "");
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			try {
+				waitingDialog.show();
+				txtbirthday = txtday + "-" + txtmonth + "-" + txtyeard;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			if (!share.getclickLoginFB()) {
+				String android_id = Secure.getString(
+						RegisterActivity.this.getContentResolver(),
+						Secure.ANDROID_ID);
+				loginstatus = GetJsonFromAPI.checkLogin(API.registerString(txtname.toString(),
+								txtemail.toString(), txtphone.toString(),
+								txtgender, txtbirthday, android_id,
+								Utility.systemString+ android.os.Build.VERSION.RELEASE,"12345678"));
+			}
+			else
+			{
+				try {
+
+					loginstatus = GetJsonFromAPI.checkLogin(API.checkLoginFB(
+							LoginMenuActivity.rg.getId(), LoginMenuActivity.rg.getImg_path(), 
+							LoginMenuActivity.rg.getName(), LoginMenuActivity.rg.getEmail(), LoginMenuActivity.rg.getPhone(),
+							LoginMenuActivity.rg.getGender(), LoginMenuActivity.rg.getBirthday(), 
+							LoginMenuActivity.rg.getDeviceID(), LoginMenuActivity.rg.getSystem(), LoginMenuActivity.rg.getToken()));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			waitingDialog.cancel();
+			if (loginstatus) {
+				SharePreferance share = new SharePreferance(context);
+				if(share.getclickLoginFB())
+					share.setUserName(LoginMenuActivity.rg.getId());
+				else
+					share.setUserName(txtemail);
+				// set status Logged is true
+				share.setStatusLogged(true);
+			} else
+				toast("Email already used. Please try another one");
+		}
+
+	}
+
+	// add items into spinner dynamically
+	public void addItemsOnSpinners() {
+
+		List<String> list = new ArrayList<String>(Arrays.asList(getResources()
+				.getStringArray(R.array.gender)));
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, list);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		List<String> list_month = new ArrayList<String>(
+				Arrays.asList(getResources().getStringArray(R.array.month)));
+		ArrayAdapter<String> dataAdapter_month = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, list_month);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		List<String> list_day = new ArrayList<String>(
+				Arrays.asList(getResources().getStringArray(R.array.day)));
+		ArrayAdapter<String> dataAdapter_day = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, list_day);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		spinnerGender.setAdapter(dataAdapter);
+		spinnerM.setAdapter(dataAdapter_month);
+		spinnerD.setAdapter(dataAdapter_day);
+	}
+
+	@SuppressLint("ShowToast")
+	private void toast(String sms) {
+		Toast.makeText(context, sms, 400).show();
+	}
+}

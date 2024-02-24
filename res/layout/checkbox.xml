@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+    <TextView
+        android:id="@+id/checkboxVi"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="abc"
+        android:background="@drawable/img_bg"
+        android:textSize="@dimen/font_size_menu" />
+
+    <TextView
+        android:id="@+id/checkboxEn"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/checkboxVi"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/img_bg"
+        android:text="abc"
+        android:textSize="@dimen/font_size_menu" />
+
+</RelativeLayout>

@@ -1,0 +1,132 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:textSize="@dimen/font_size_menu_login" >
+
+    <ScrollView
+        android:padding="10dp"
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+             >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Wear It Now"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/signin"
+                android:textSize="@dimen/font_size_menu_login"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#000000" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/registered_cus"
+                android:textSize="@dimen/font_size_menu_login"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ifyoualready"
+                android:textSize="@dimen/font_size_menu_login" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enteryouremail"
+                android:textSize="@dimen/font_size_menu_login"
+                android:textStyle="bold" />
+
+            <!-- Email Field -->
+
+            <EditText
+                android:id="@+id/input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/emailHintLogin"
+                android:inputType="textEmailAddress"
+                android:textSize="@dimen/font_size_menu_login"
+                android:windowSoftInputMode="adjustResize" />
+
+            <!-- Phone Field -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enteryourphone"
+                android:textSize="@dimen/font_size_menu_login"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/input_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/phoneHintLogin"
+                android:inputType="text|number"
+                android:textSize="@dimen/font_size_menu_login"
+                android:windowSoftInputMode="adjustResize" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="5dp" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:onClick="login"
+                android:text="@string/signinnow"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_menu_login" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="5dp" />
+            <!-- Sign in with face -->
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:onClick="GoToRegister"
+                android:text="@string/register"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_menu_login" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="5dp" />
+
+            <com.facebook.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_size_menu_login"
+                facebook:confirm_logout="true"
+                facebook:fetch_user_info="true" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingBottom="10dp" >
+
+    <ImageView
+        android:id="@+id/img_purchase"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/purchase"
+        android:text="CPNo" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/next_icon" />
+
+    <TextView
+        android:id="@+id/tv_receipt_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/img_purchase"
+        android:text="@string/receiptno"
+        android:layout_centerVertical="true"
+        android:paddingBottom="25dp"
+        android:textSize="@dimen/font_size_cplist"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tv_receipt_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/img_purchase"
+        android:text="114"
+        android:layout_centerVertical="true"
+        android:paddingTop="25dp"
+        android:textSize="@dimen/font_size_cplist"
+        android:textStyle="bold" />
+    
+    <TextView
+        android:id="@+id/tv_receipt_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tv_receipt_no"
+        android:text="@string/Price"
+        android:layout_centerVertical="true"
+        android:paddingBottom="25dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="@dimen/font_size_cplist"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tv_receipt_price_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_receipt_price"
+        android:layout_toRightOf="@+id/tv_receipt_no"
+        android:text="114"
+        android:paddingTop="25dp"
+        android:layout_centerVertical="true"
+        android:textSize="@dimen/font_size_cplist"
+        android:textStyle="bold" />
+    
+    <TextView
+        android:id="@+id/tv_receipt_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="31.03.2014"
+        android:layout_alignRight="@+id/imageView1"
+        android:textSize="@dimen/font_size_cplist"
+        android:layout_alignTop="@+id/img_purchase"
+         />
+
+</RelativeLayout>

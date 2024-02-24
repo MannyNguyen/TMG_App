@@ -1,0 +1,60 @@
+package object;
+
+public class Coupon {
+	private String id;
+	private String cpNo;
+	private String img_path;
+	private String cp_type;
+	private String cp_value;
+	private String cp_expired;
+	public Coupon(String img_path,String cp_type,String cp_value, String cp_expired)
+	{
+		super();
+		this.cp_expired = cp_expired;
+		this.img_path= img_path;
+		this.cp_type= cp_type;
+		this.cp_value= cp_value;
+		
+	}
+	public Coupon()
+	{
+		super();
+		
+	}
+	public String getImg_path() {
+		return img_path;
+	}
+	public void setImg_path(String img_path) {
+		this.img_path = img_path;
+	}
+	public String getCp_type() {
+		return cp_type;
+	}
+	public void setCp_type(String cp_type) {
+		this.cp_type = cp_type;
+	}
+	public String getCp_value() {
+		return cp_value;
+	}
+	public void setCp_value(String cp_value) {
+		this.cp_value = cp_value;
+	}
+	public String getCp_expired() {
+		return cp_expired;
+	}
+	public void setCp_expired(String cp_expired) {
+		this.cp_expired = cp_expired;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getCpNo() {
+		return cpNo;
+	}
+	public void setCpNo(String cpNo) {
+		this.cpNo = cpNo;
+	}
+}

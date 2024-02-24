@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff" >
+
+    <ImageView
+        android:id="@+id/img_barcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" 
+        />
+    <TextView
+        android:id="@+id/tv_code"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" 
+        android:layout_below="@+id/img_barcode"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        />
+    
+    <TextView
+        android:id="@+id/tv_valuecp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" 
+        android:layout_above="@+id/img_barcode"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/red"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        />
+    <TextView
+        android:id="@+id/tv_namecp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" 
+        android:layout_above="@+id/tv_valuecp"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_centerHorizontal="true"
+        />
+    <LinearLayout
+        android:id="@+id/layout_video_info_brightness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:visibility="invisible" >
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/light" />
+
+        <TextView
+            android:id="@+id/tv_brightness_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

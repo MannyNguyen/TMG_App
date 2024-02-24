@@ -1,0 +1,150 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:weightSum="10" >
+
+    <ImageView
+        android:id="@+id/img_cover"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cover" />
+    <TextView
+        android:id="@+id/profile"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/black"
+        android:text="ACCOUNT PROFILE"
+        android:textStyle="italic"
+        android:textSize="@dimen/font_size_dialog_game_large" 
+        android:layout_below="@+id/img_profile"
+        android:layout_alignLeft="@+id/img_profile"
+        />
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/black"
+        android:text="ACCOUNT PROFILE"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_size_dialog_game_medium" 
+        android:layout_below="@+id/profile"
+        android:layout_alignLeft="@+id/img_profile"
+        />
+    <LinearLayout
+        android:id="@+id/birthday"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent" 
+        android:layout_alignLeft="@+id/img_profile"
+        android:weightSum="10"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tv_email"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="@string/birthdayAcc"
+            android:textSize="@dimen/font_size_dialog_game_medium"
+            android:textColor="@color/black"
+             />
+
+         <TextView
+             android:id="@+id/tv_birthday"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="6"
+             android:text="02.05.1990"
+             android:textSize="@dimen/font_size_dialog_game_medium"
+             android:textColor="@color/black"
+             />
+        
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/gender"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent" 
+        android:layout_alignLeft="@+id/img_profile"
+        android:weightSum="10"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/birthday"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="@string/genderAcc"
+            android:textSize="@dimen/font_size_dialog_game_medium"
+            android:textColor="@color/black"
+             />
+
+         <TextView
+             android:id="@+id/tv_gender"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="6"
+             android:text="02.05.1990"
+             android:textSize="@dimen/font_size_dialog_game_medium"
+             android:textColor="@color/black"
+             />
+        
+    </LinearLayout>
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent" 
+        android:layout_alignLeft="@+id/img_profile"
+        android:weightSum="10"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/gender"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="@string/phoneAcc"
+            android:textSize="@dimen/font_size_dialog_game_medium"
+            android:textColor="@color/black"
+             />
+
+         <TextView
+             android:id="@+id/tv_phone"
+             android:layout_width="0dp"
+             android:layout_height="wrap_content"
+             android:layout_weight="6"
+             android:text="02.05.1990"
+             android:textSize="@dimen/font_size_dialog_game_medium"
+             android:textColor="@color/black"
+             />
+        
+    </LinearLayout>
+
+    <prosoft.android.utility.RoundedImageView
+        android:id="@+id/img_profile"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="162dp"
+        android:background="@drawable/username_big" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img_cover"
+        android:layout_marginBottom="19dp"
+        android:layout_toRightOf="@+id/img_profile"
+        android:ems="10"
+        android:text="thaitam"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

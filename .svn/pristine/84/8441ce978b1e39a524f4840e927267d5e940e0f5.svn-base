@@ -1,0 +1,455 @@
+package com.ctyprosoft.tmg;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
+import object.Register;
+
+import prosoft.android.utility.API;
+import prosoft.android.utility.GetJsonFromAPI;
+import prosoft.android.utility.SharePreferance;
+import prosoft.android.utility.Utility;
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.provider.Settings.Secure;
+import android.view.View;
+import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.android.activity.MainActivity;
+import com.android.activity.RegisterActivity;
+import com.ctyprosoft.tmg.R;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.Session.Builder;
+import com.facebook.Session.OpenRequest;
+import com.facebook.SessionLoginBehavior;
+import com.facebook.SessionState;
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.FacebookError;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.LoginButton;
+
+public class LoginMenuActivity extends Activity implements OnClickListener {
+	Context context = this;
+	LoginButton btn_fb_login;
+	SharePreferance share;
+	Dialog waitingDialog;
+	EditText email, phone;
+	String faceID, imagePath, name_fb, email_fb, phone_fb, gender_fb,
+			birthday_fb, deviceID, system, token;
+
+	/*
+	 * Variable Facebook Login
+	 */
+	private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
+	private boolean pendingPublishReauthorization = false;
+	public static Facebook facebook;
+	public static Register rg;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+
+		prepareActivity();
+
+		setContentView(R.layout.login_menu);
+
+		initVariables();
+
+	}
+
+	private void prepareActivity() {
+		/*
+		 * set language depend previous setting.if not,set default by setting
+		 * device
+		 */
+		share = new SharePreferance(context);
+		String value = share.getValueLanguage();
+		if (!value.equals(""))
+			changelanguage(context, value);
+		/*
+		 * set language depend previous setting.if not,set default by setting
+		 * device
+		 */
+		// clear FB
+		callFacebookLogout(context);
+	}
+
+	@SuppressLint("NewApi")
+	private void initVariables() {
+		ActionBar ab = getActionBar();
+		ab.hide();
+		// Login FB Button
+		btn_fb_login = (LoginButton) findViewById(R.id.login_button);
+		btn_fb_login.setReadPermissions(Arrays.asList("email", "user_location",
+				"user_birthday", "user_likes"));
+		btn_fb_login.setOnClickListener(this);
+		phone_fb = "0123456789";
+		token = "123456";
+
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(PENDING_PUBLISH_KEY, pendingPublishReauthorization);
+	}
+
+	@SuppressWarnings("unused")
+	private void onSessionStateChange(Session session, SessionState state,
+			Exception exception) {
+		if (state.isOpened()) {
+			System.out.println("state.isOpened()");
+
+		}
+	}
+
+	public static void changelanguage(Context context, String language) {
+		String languageToLoad = language; // your language
+		Locale locale = new Locale(languageToLoad);
+		Locale.setDefault(locale);
+		Configuration config = new Configuration();
+		config.locale = locale;
+		context.getResources().updateConfiguration(config,
+				context.getResources().getDisplayMetrics());
+	}
+
+	public void SignInWithFace() {
+		// start Facebook Login
+		Session currentSession = Session.getActiveSession();
+		if (currentSession == null || currentSession.getState().isClosed()) {
+			Session session = new Session.Builder(context).build();
+			Session.setActiveSession(session);
+			currentSession = session;
+		}
+
+		if (currentSession.isOpened()) {
+			// Do whatever u want. User has logged in
+
+		} else if (!currentSession.isOpened()) {
+			// Ask for username and password
+			OpenRequest op = new Session.OpenRequest((Activity) context);
+			// make user login with dialog facebook
+			op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+			op.setCallback(null);
+
+			List<String> permissions = new ArrayList<String>();
+			permissions.add("publish_stream");
+			permissions.add("user_likes");
+			permissions.add("email");
+			permissions.add("user_birthday");
+			op.setPermissions(permissions);
+
+			Session session = new Builder(LoginMenuActivity.this).build();
+			Session.setActiveSession(session);
+			session.openForPublish(op);
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (Session.getActiveSession() != null)
+			Session.getActiveSession().onActivityResult(this, requestCode,
+					resultCode, data);
+
+		Session currentSession = Session.getActiveSession();
+		if (currentSession == null || currentSession.getState().isClosed()) {
+			Session session = new Session.Builder(context).build();
+			Session.setActiveSession(session);
+			currentSession = session;
+		}
+
+		if (currentSession.isOpened()) {
+			Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+				@SuppressWarnings("deprecation")
+				@Override
+				public void call(final Session session, SessionState state,
+						Exception exception) {
+
+					if (session.isOpened()) {
+
+						Request.executeMeRequestAsync(session,
+								new Request.GraphUserCallback() {
+
+									@Override
+									public void onCompleted(GraphUser user,
+											Response response) {
+										if (user != null) {
+
+											try {
+												
+											
+											faceID = user.getId();
+											name_fb = user.getUsername();
+											imagePath = "http://graph.facebook.com/"
+													+ name_fb + "/picture";
+											name_fb = user.getName();
+											email_fb = response
+													.getGraphObject()
+													.getProperty("email")
+													.toString();
+											birthday_fb = response
+													.getGraphObject()
+													.getProperty("birthday")
+													.toString();
+											gender_fb = user.asMap()
+													.get("gender").toString();
+											} catch (Exception e) {
+												// TODO: handle exception
+											}
+											GotoRegister(null);
+//											new BG_loginByFB().execute();
+
+										}
+									}
+								});
+					}
+				}
+			});
+		}
+	}
+
+	public void GotoMainPage(View view) {
+		Intent it = new Intent(context, MainActivity.class);
+		startActivity(it);
+		finish();
+	}
+	public void GotoRegister(View view) {
+		rg = new Register(faceID, imagePath, name_fb, email_fb, phone_fb, gender_fb, birthday_fb, deviceID, system, token);
+		Intent it = new Intent(context, RegisterActivity.class);
+		startActivity(it);
+		finish();
+	}
+	private void toast(String sms) {
+		Toast.makeText(context, sms, Toast.LENGTH_LONG).show();
+	}
+
+	public void login(View view) {
+		email = (EditText) findViewById(R.id.input_email);
+		phone = (EditText) findViewById(R.id.input_phone);
+		if (email.getText().toString().equals(""))
+			prosoft.android.utility.Utility.showDialog(context,
+					"Email can't null");
+		else if (phone.getText().toString().equals(""))
+			prosoft.android.utility.Utility.showDialog(context,
+					"Phone can't null");
+		else if (email.getText().toString().equals("")
+				|| !checkEmailValid(email.getText().toString(), "@")
+				|| !checkEmailValid(email.getText().toString(), ".com")) {
+			prosoft.android.utility.Utility
+					.showDialog(context, "Email invalid");
+		} else
+			new BG_checkLogin().execute();
+
+	}
+
+	class BG_checkLogin extends AsyncTask<String, Void, String> {
+
+		boolean loginstatus;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			waitingDialog = new Dialog(context);
+			waitingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			waitingDialog.setContentView(R.layout.waitingdialog);
+			waitingDialog.setCancelable(false);
+			waitingDialog.show();
+
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			try {
+				loginstatus = GetJsonFromAPI.checkLogin(API.checkLogin(email
+						.getText().toString(), phone.getText().toString()));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (loginstatus) {
+				toast("done");
+				SharePreferance share = new SharePreferance(context);
+				share.setUserName(email.getText().toString());
+				// set status Logged is true
+				share.setStatusLogged(true);
+				GotoMainPage(null);
+			} else
+				toast("Email or Phone incorrect");
+			waitingDialog.cancel();
+		}
+
+	}
+
+	class BG_loginByFB extends AsyncTask<String, Void, String> {
+
+		boolean loginstatus;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			waitingDialog = new Dialog(context);
+			waitingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			waitingDialog.setContentView(R.layout.waitingdialog);
+			waitingDialog.setCancelable(false);
+			waitingDialog.show();
+
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			
+			
+			deviceID = Secure.getString(context.getContentResolver(),
+					Secure.ANDROID_ID);
+			system = Utility.systemString + android.os.Build.VERSION.RELEASE;
+			try {
+
+				loginstatus = GetJsonFromAPI.checkLogin(API.checkLoginFB(
+						faceID, imagePath, name_fb, email_fb, phone_fb,
+						gender_fb, birthday_fb, deviceID, system, token));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (loginstatus) {
+				SharePreferance share = new SharePreferance(context);
+				share.setUserName(faceID);
+				// set status Logged is true
+				share.setStatusLogged(true);
+				GotoMainPage(null);
+			} else
+				toast("Email or Phone incorrect");
+			waitingDialog.cancel();
+		}
+
+	}
+
+	public boolean checkEmailValid(String string, String charac) {
+		return string.indexOf(charac) > -1;
+	}
+
+	public void GoToRegister(View view) {
+		startActivity(new Intent(context, RegisterActivity.class));
+	}
+
+	/**
+	 * Logout From Facebook
+	 */
+	public static void callFacebookLogout(Context context) {
+		Session session = Session.getActiveSession();
+		if (session != null) {
+
+			if (!session.isClosed()) {
+				session.closeAndClearTokenInformation();
+				// clear your preferences if saved
+			}
+		} else {
+
+			session = new Session(context);
+			Session.setActiveSession(session);
+
+			session.closeAndClearTokenInformation();
+			// clear your preferences if saved
+
+		}
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.login_button:
+			share.setclickLoginFB(true);
+			SignInWithFace();
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@SuppressWarnings({ "deprecation", "unused" })
+	private void inviteFromFacebook(Activity activity, List<GraphUser> list) {
+		for (int i = 0; i < list.size(); i++) {
+			// TODO post invite to friends wall
+			// Log.v("MainActivity", "user id: " + user.getId());
+
+			if (list == null || list.size() == 0)
+				return;
+
+			Bundle parameters = new Bundle();
+
+			String friendsIdsInFormat = "";
+
+			friendsIdsInFormat = friendsIdsInFormat + list.get(i).getId();
+
+			parameters.putString("to", friendsIdsInFormat);
+			parameters.putString("message", "Use my app!");
+
+			Facebook mFacebook = new Facebook(getResources().getString(
+					R.string.faceId));
+			// Show dialog for invitation
+			mFacebook.dialog(activity, "apprequests", parameters,
+					new Facebook.DialogListener() {
+						@Override
+						public void onComplete(Bundle values) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void onCancel() {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void onFacebookError(FacebookError e) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void onError(DialogError e) {
+							// TODO Auto-generated method stub
+
+						}
+					});
+		}
+	}
+}

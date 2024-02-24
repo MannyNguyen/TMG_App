@@ -1,0 +1,53 @@
+package prosoft.android.utility;
+
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class API {
+	static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+	static String token = "38819";
+	static String currentDateandTime = sdf.format(new Date());
+	public static String http = "http://tmg.ctyprosoft.com:81/api/";
+	public static String register = "account/register.aspx";
+	public static String cplist = "Coupon/GetCouponlist.aspx";
+	public static String cpDetail = "Coupon/GetCouponDetail.aspx";
+	public static String cpMemCard = "account/GetAccountDetail.aspx";
+	public static String login = "account/login.aspx";
+	public static String loginFB = "account/loginfb.aspx";
+	public static String registerString(String name, String email,
+			String phone, String gender, String birthday, String deviceid,
+			String system, String token) {
+		String string = http + register + "?name=" + name + "&email=" + email
+				+ "&phone=" + phone + "&gender=" + gender + "&birthday="
+				+ birthday + "&deviceid=" + deviceid + "&system=" + system
+				+ "&token=" + token;
+		return string;
+	}
+
+	public static String getCPListString(String email) {
+		String string = http + cplist + "?email=" + email;
+		return string;
+	}
+	public static String getCPDetailString(String id) {
+		String string = http + cpDetail + "?id=" + id;
+		return string;
+	}
+	public static String getMemCard(String email) {
+		String string = http + cpMemCard + "?email=" + email;
+		return string;
+	}
+	public static String checkLogin(String email,String phone) {
+		String string = http + login + "?email=" + email + "&phone=" + phone+  "&token=" + token;
+		return string;
+	}
+	public static String checkLoginFB(String IDFB,String imgpath,String name,String email
+			,String phone,String gender,String birthday,String deviceID,String system,String token) {
+		String string = http + loginFB + "?IDFB=" + IDFB + "&imgpath=" + URLEncoder.encode(imgpath)+  "&name=" + URLEncoder.encode(name)
+				+  "&email=" + URLEncoder.encode(email)
+				+  "&phone=" + URLEncoder.encode(phone)+  "&gender=" +URLEncoder.encode(gender)+ 
+				"&birthday=" +URLEncoder.encode(birthday)+  "&deviceID=" + URLEncoder.encode(deviceID)
+				+  "&system=" + URLEncoder.encode(system)+  "&token=" + URLEncoder.encode(token);
+		return string;
+	}
+}

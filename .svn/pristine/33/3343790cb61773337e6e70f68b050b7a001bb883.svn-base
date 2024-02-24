@@ -1,0 +1,100 @@
+package com.android.tmg;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+public class RegisterActivity extends Activity {
+	Context context = this;
+	Spinner spinnerGender,spinnerM,spinnerD;
+	EditText name,email,phone,yeard;
+	@SuppressLint("NewApi")
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.register);
+		innitVariables();
+		/*
+		 * Action Bar
+		 */
+		ActionBar ab = getActionBar();
+		ab.setTitle(getResources().getString(R.string.titleActionBarReg));
+		ab.setDisplayHomeAsUpEnabled(true);
+	}
+	private void innitVariables()
+	{
+		spinnerGender = (Spinner) findViewById(R.id.spinner_gender);
+		spinnerM = (Spinner) findViewById(R.id.spinner_month);
+		spinnerD = (Spinner) findViewById(R.id.spinner_day);
+		addItemsOnSpinners();
+		name  = (EditText)findViewById(R.id.input_name);
+		email = (EditText)findViewById(R.id.input_email);
+		phone = (EditText)findViewById(R.id.input_phone);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	// add items into spinner dynamically
+	public void addItemsOnSpinners() {
+
+		List<String> list = new ArrayList<String>(Arrays.asList(getResources()
+				.getStringArray(R.array.gender)));
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, list);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		List<String> list_month = new ArrayList<String>(Arrays.asList(getResources()
+				.getStringArray(R.array.month)));
+		ArrayAdapter<String> dataAdapter_month = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, list_month);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		List<String> list_day = new ArrayList<String>(Arrays.asList(getResources()
+				.getStringArray(R.array.day
+						)));
+		ArrayAdapter<String> dataAdapter_day = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, list_day);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		spinnerGender.setAdapter(dataAdapter);
+		spinnerM.setAdapter(dataAdapter_month);
+		spinnerD.setAdapter(dataAdapter_day);
+	}
+
+	@SuppressWarnings("unused")
+	private void getvaluesInput() {
+		String gender = spinnerGender.getSelectedItem().toString();
+	}
+	public void Submit(View view)
+	{
+		toast("submit");
+	}
+	private void toast(String sms)
+	{
+		Toast.makeText(context, sms, 400).show();
+	}
+}

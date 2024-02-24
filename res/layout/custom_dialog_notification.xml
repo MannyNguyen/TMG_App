@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="550dp"
+    android:layout_gravity="center_vertical|center_horizontal"
+    android:background="#ffffff" >
+
+    <TextView
+        android:id="@+id/detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/subtitle2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/detailsms"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size_cplist"
+        />
+
+    <View
+        android:id="@+id/view_horizone"
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:background="#111111" />
+
+    <ImageView
+        android:id="@+id/img_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/detail"
+        android:background="@drawable/close" />
+    <TextView
+        android:id="@+id/tv_sms_noti_detail"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" 
+        android:layout_margin="20dp"
+        android:textSize="@dimen/font_size_cplist"
+        android:layout_below="@+id/view_horizone"
+        android:text="jhlqiewughcirequcfifergvcuo7erqgiuiguhquedwbxiwe8yadjwiufguerygfcuewrfue"
+        />
+	<TextView
+        android:id="@+id/tv_day_noti_detail"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" 
+        android:textSize="@dimen/font_size_cplist"
+        android:layout_below="@+id/tv_sms_noti_detail"
+        android:text="01.04.2014"
+        android:layout_alignParentRight="true"
+        android:paddingRight="20dp"
+        android:paddingBottom="20dp"
+        />
+</RelativeLayout>

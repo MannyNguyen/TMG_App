@@ -1,0 +1,98 @@
+package com.android.activity;
+
+import java.util.ArrayList;
+
+import object.Location_Shop;
+import object.Stores;
+import adapter.AdapterNearBy;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
+import android.os.Bundle;
+
+import com.ctyprosoft.tmg.GoogleMapActivity;
+import com.ctyprosoft.tmg.R;
+
+import eu.erikw.PullToRefreshListView;
+
+public class ListNearByActivity extends Activity {
+	Context context = this;
+	private static int currentPage = 1;
+	private static int positionGridView = 1;
+	int firstVisiblePosition;
+	int visibleItem;
+	int totalItem;
+	private static int totalPage = 0;
+	ArrayList<Stores> array;
+	public static Resources res;
+	private adapter.ListAsGridExampleAdapter mAdapter;
+	AdapterNearBy adapter;
+	PullToRefreshListView lv;
+
+	private ArrayList<Location_Shop> shops;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_list_nearby);
+
+		// configure action bar
+		ActionBar ab = getActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
+
+		shops = GoogleMapActivity.currentLocations;
+
+		addDataForNewsPage();
+		innitAdapterLv();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(android.view.MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+
+		default:
+			break;
+		}
+		// TODO Auto-generated method stub
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void innitAdapterLv() {
+		lv = (PullToRefreshListView) findViewById(R.id.listView);
+		adapter = new AdapterNearBy(context, array);
+		lv.setAdapter(adapter);
+
+	}
+
+	private void addDataForNewsPage() {
+//		int[] images = { R.drawable.android_ainosofia,
+//				R.drawable.android_johnhenry, R.drawable.farah_logo,
+//				R.drawable.android_ainosofia, R.drawable.android_johnhenry,
+//				R.drawable.farah_logo, R.drawable.android_ainosofia,
+//				R.drawable.android_johnhenry, R.drawable.farah_logo };
+//		
+//		String[] storename = { "QuanFashion", "QuanSipVang", "Quankun",
+//				"QuanMaster", "QuanFashion", "QuanSipVang", "Quankun",
+//				"QuanMaster" };
+//		String[] addr = { "CongHoa", "HoangHoaTham", "Quankun", "QuanMaster",
+//				"QuanFashion", "QuanSipVang", "Quankun", "QuanMaster" };
+//		String[] distance = { "0.5km", "0.9km", "1.3km", "2km", "5km", "30km",
+		// "45km", "53km" };
+//		for (int i = 0; i < 8; i++) {
+//
+//			Log.d("TAG", "j:" + i);
+//			array.add(new Stores(storename[i], addr[i], distance[i], images[i]));
+//		}
+		
+		array = new ArrayList<Stores>();
+		for (int i = 0; i < shops.size(); i++) {
+			array.add(new Stores(shops.get(i).getmStoreName(), shops.get(i).getmAddress(), shops.get(i).getmDistance(), shops.get(i).getmLogo()));
+		}
+
+	}
+}

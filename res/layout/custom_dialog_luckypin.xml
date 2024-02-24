@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity1" >
+
+    <prosoft.android.utility.RoundedImageView
+        android:id="@+id/roundedImageView1"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/ellipse" />
+
+    <TextView
+        android:id="@+id/congrat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/roundedImageView1"
+        android:layout_centerHorizontal="true"
+        android:ellipsize="marquee"
+        android:layout_marginTop="70dp"
+        android:singleLine="true"
+        android:text="CONGRATULATIONS!"
+        android:textColor="@color/reddark"
+        android:textSize="@dimen/font_size_dialog_game_medium"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/won"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/congrat"
+        android:layout_centerHorizontal="true"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:layout_marginTop="5dp"
+        android:text="YOU WON"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size_dialog_game_medium"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/won"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="50.000 VND"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size_dialog_game_large"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/voucher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/value"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="VOUCHER"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size_dialog_game_medium"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/img_getvoucher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/roundedImageView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="46dp"
+        android:background="@drawable/getvoucher" />
+
+</RelativeLayout>

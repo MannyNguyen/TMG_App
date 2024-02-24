@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingBottom="10dp" >
+
+    <ImageView
+        android:id="@+id/img_cp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/message_icon"
+        android:text="CPNo" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/next_icon" />
+
+    <TextView
+        android:id="@+id/tv_sms"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/img_cp"
+        android:layout_toLeftOf="@+id/imageView1"
+        android:text="SMS"
+        android:ellipsize="end"
+        android:lines="2"
+        android:textSize="@dimen/font_size_cplist"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_day_noti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/imageView1"
+        android:layout_alignTop="@+id/img_cp"
+        android:text="01.04.2014" />
+
+</RelativeLayout>

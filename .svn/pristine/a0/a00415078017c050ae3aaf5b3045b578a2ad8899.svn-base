@@ -1,0 +1,23 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:background="@drawable/launcher_android" />
+
+    
+    
+     <!--
+     <fragment
+        android:id="@+id/frag_menu"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        class="com.ketan.slidingexample.Menufragment" />
+    -->
+    
+    
+</LinearLayout>

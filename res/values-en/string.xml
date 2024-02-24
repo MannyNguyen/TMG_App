@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	
+    <string name="app_name">WearItNow</string>
+    <string name="title_name">WEAR IT NOW</string>
+    <!-- text label Activity -->
+    <string name="member_label">Member Card</string>
+    <string name="member_game">Lucky Spin</string>
+    <string name="coupon">Coupon</string>
+    <string name="coupondetail">Coupon Detail</string>
+    <string name="newsdetail">News</string>
+    <string name="couponhis">Coupon History</string>
+    <string name="menu_settings">Settings</string>
+    <string name="nearbySearch">Nearby Search</string>
+    <string name="storelist">Store List</string>
+    <string name="accountsetting">Account Info</string>
+    <string name="purchase">Purchase History</string>
+    <string name="notificationHis">Notification History</string>
+    <string name="invitefb">Invite Friends</string>
+    <!-- text label Activity -->
+
+    <string name="faceId">362498183889664</string>
+    <string name="loading">Processing ...</string>
+    <string name="language">Language</string>
+    <string name="all">All</string>
+    <string name="getstarting">GET STARTED</string>
+
+    <!-- text Activity NoInternet -->
+    <string name="nointernet">No internet connection. Check your network</string>
+    <string name="datanetwork">DATA NETWORK NOT ACCESSIBLE</string>
+    <string name="checkyoutconnection">CHECK IF YOU HAVE ACTIVATED THE NETWORK
+	ACCESS ON YOUR DEVICE</string>
+    <string name="setting">Setting</string>
+    <string name="exit">Exit</string>
+    <!-- text Activity NoInternet -->
+
+    <string-array name="list_drawer_array">
+        <item>DIVIDER</item>
+        <item>VISIT HOME PAGE</item>
+        <item>Home</item>
+        <item>GIFT FOR YOU</item>
+        <item>Coupons</item>
+        <item>Lucky Spin</item>
+        <item>VISIT OUR BRAND PAGES ON FACEBOOK</item>
+        <item>John Henrry Vietnam</item>
+        <item>Aino Sofia - Designed in Tokyo, Paris</item>
+        <item>Farah Vintage Vietnam</item>
+        <item>STORE ADDRESS - SEARCH NOW</item>
+        <item>Nearby Search</item>
+        <item>Store List</item>
+        <item>HISTORY</item>
+        <item>Purchase</item>
+        <item>My Coupons</item>
+        <item>Notifications</item>
+        <item>SETTINGS</item>
+        <item>Account</item>
+        <item>Language</item>
+        <item>App Invitation</item>
+        <item>Customer Service</item>
+        <item>Log Out</item>
+    </string-array>
+
+    <string name="title_activity_activity1">Activity1</string>
+    <string name="title_activity_flash">TMG</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_activity2">Activity2</string>
+
+    <!-- text Menu -->
+    <string name="email">Email :</string>
+    <string name="phone">Phone :</string>
+    <string name="emailHintLogin">Email Login</string>
+    <string name="phoneHintLogin">Phone Number</string>
+    <string name="signin">SIGN IN</string>
+    <string name="createAcc">CREATE AN ACCOUNT</string>
+    <string name="signinnow">SIGN IN NOW</string>
+    <string name="registered_cus">REGISTERED CUSTOMERS</string>
+    <string name="ifyoualready">If you have already registered then sign here</string>
+    <string name="notregistered_cus">NOT REGISTERED? THAT\'S OK</string>
+    <string name="ifyoudonalready">If you are new user.Please click "Register now"</string>
+    <string name="enteryouremail">Enter your email</string>
+    <string name="enteryourphone">Enter your phone number</string>
+    <string name="signinwithface">SIGN IN WITH FACEBOOK</string>
+    <string name="ifyoudontwantreg">If you don\'t want to register. Please click "Log in with Facebook"</string>
+    <string name="register">REGISTER NOW</string>
+    <!-- text Menu -->
+
+
+    <!-- text Register -->
+    <string name="titleActionBarReg">Register</string>
+    <string name="nameReg">Account Name</string>
+    <string name="requirenameReg">Account Name*</string>
+    <string name="emailReg">Email Address</string>
+    <string name="requireemailReg">Email address*</string>
+    <string name="phoneReg">Phone Number</string>
+    <string name="requirephoneReg">Phone Number*</string>
+    <string name="confirmphoneReg">Confirm Phone Number</string>
+    <string name="requireconfirmphoneReg">Confirm Phone Number*</string>
+    <string name="genderReg">Gender :</string>
+    <string name="gender">Gender</string>
+    <string name="requirebirthday">Birthday*</string>
+    <string name="requiregender">Gender*</string>
+    <string name="birdReg">Birthday :</string>
+    <string name="yeardtexthint">Year</string>
+    <string name="submitReg">Register</string>
+
+    <string-array name="gender">
+        <item>Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="month">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="day">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+    <!-- text Register -->
+
+
+    <!-- text list first item drawer -->
+    <string name="viewmembercard">View Member Card</string>
+    <string name="home">Home</string>
+
+    <!-- text call dialog -->
+    <string name="callhenry">1</string>
+    <string name="callainosofia">2</string>
+    <string name="callfara">3</string>
+    <string name="CallConfirmation">CALL CONFIRMATION</string>
+    <string name="CallConfirmationDesc">Call for service %@ ?</string>
+    <string name="CallConfirmationYes">Yes</string>
+    <string name="CallConfirmationCancel">Cancel</string>
+    <!-- text call dialog -->
+    <!-- text list item drawer -->
+    <!-- text membercard -->
+    <string name="member">MEMBER : </string>
+    <string name="cardNo">CARD NO : </string>
+
+    <!-- text membercard -->
+    <!-- text coupon -->
+    <string name="value">Value: </string>
+    <string name="expire">Expiry Date: </string>
+    <!-- text coupon -->
+
+
+    <!-- text Purchase -->
+    <string name="receiptno">Receipt No.</string>
+    <string name="Price">Price : </string>
+    <!-- text Purchase -->
+
+
+    <!-- text purchaseDetail -->
+    <string name="detail">DETAILS</string>
+    <string name="storename">Store Name :</string>
+    <string name="descripstion">Description :</string>
+    <string name="attr">Attribute :</string>
+    <string name="pro_description">PRODUCT DESCRIPTION</string>
+    <string name="size">Size :</string>
+    <string name="quantity">Quantity :</string>
+    <string name="day">Date :</string>
+    <!-- text purchaseDetail -->
+    <string-array name="CP_His">
+        <item>Available</item>
+        <item>Used</item>
+        <item>Expired</item>
+    </string-array>
+
+    <!-- text dialog setting language -->
+    <string name="settingLanguage">SETTING LANGUAGE</string>
+    <string name="english">English</string>
+    <string name="vietnamese">Vietnamese</string>
+    <!-- text dialog setting language -->
+
+
+    <!-- text dialog detail Notification -->
+    <string name="detailsms">Detail Message</string>
+    <string name="cancel">Cancel</string>
+    <!-- text dialog detail Notification -->
+
+
+    <!-- text login when null -->
+    <string name="emailRequired">Email is required</string>
+    <string name="emailInvalid">Email is invalid</string>
+    <string name="phoneRequired">Phone is required</string>
+    <!-- text login when null -->
+
+
+    <!-- text register when null -->
+    <string name="nameRequired">Name is required</string>
+    <string name="phoneInvalid">Phone number format is not valid</string>
+    <string name="phoneNotMatch">Phone numbers are not matched</string>
+    <string name="genderRequired">Gender is required</string>
+    <string name="birthdayRequired">Birthday is required</string>
+    <string name="birthdayInvalid">Birthday is invalid</string>
+    <!-- text register when null -->
+
+
+    <!-- text help -->
+    <string name="helpCoupon">Please visit our nearest store for shopping with your coupons!
+	You will receive the discount depending on the value of your coupons.</string>
+    <string name="helpGame">If you want to increase the credits,
+         please visit our stores and use your coupons.</string>
+    <string name="helpInvite">You will receive coupons if your invited friends install this app and register membership. 
+        Invite them now!</string>
+    <string name="limitInvite">You can only invite 50 friends at maximum!</string>
+    <!-- text help -->
+    
+	<!-- text acc -->
+	<string name="birthdayAcc">BIRTHDAY : </string>
+	<string name="genderAcc">GENDER : </string>
+	<string name="phoneAcc">PHONE :</string>
+	<!-- text acc -->
+	<string name="outCredits">You have run out of credits. Please use your coupons to refill the credits</string>
+	<string name="emailUsed">This email is alresdy used</string>
+	<string name="emailorphoneincorrect">Email or Phone is incorrect</string>
+	
+	<string name="noShop">No stores avaiable</string>
+	<string name="khongcocuahang">No store is available</string>
+</resources>

@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/img_news_detail"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:layout_margin="15dp"
+         />
+
+    <TextView
+        android:id="@+id/news_detail_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/img_news_detail"
+        android:layout_below="@+id/img_news_detail"
+        android:layout_marginRight="15dp"
+        android:textStyle="bold"
+        android:text="tite"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size_menu" />
+
+    <TextView
+        android:id="@+id/news_detail_subtitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:layout_alignLeft="@+id/img_news_detail"
+        android:layout_below="@+id/news_detail_title"
+        android:layout_marginRight="15dp"
+        android:text="subtitle"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size_menu" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignLeft="@+id/img_news_detail"
+        android:layout_below="@+id/news_detail_subtitle" >
+
+        <TextView
+            android:id="@+id/news_detail_content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:text="content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_menu" />
+    </ScrollView>
+
+</RelativeLayout>

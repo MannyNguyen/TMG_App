@@ -1,0 +1,362 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="10" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Wear It Now"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.5"
+                    android:text="@string/createAcc"
+                    android:textSize="@dimen/font_size_menu_login"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.05"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10" >
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0.5dp"
+                    android:layout_weight="8.50"
+                    android:background="#000000" />
+            </LinearLayout>
+
+            <!-- Name Field -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="10" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.5"
+                    android:text="@string/requirenameReg"
+                    android:textSize="@dimen/font_size_menu_login"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10" >
+
+                <EditText
+                    android:id="@+id/input_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="9"
+                    android:ems="10"
+                    android:hint="@string/requirenameReg"
+                    android:inputType="text"
+                    android:textSize="@dimen/font_size_menu_login"
+                    android:windowSoftInputMode="adjustResize" />
+            </LinearLayout>
+
+            <!-- Email field -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="10" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.5"
+                    android:text="@string/requireemailReg"
+                    android:textSize="@dimen/font_size_menu_login"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10" >
+
+                <EditText
+                    android:id="@+id/input_email_reg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="9"
+                    android:ems="10"
+                    android:hint="@string/requireemailReg"
+                    android:inputType="textEmailAddress"
+                    android:textSize="@dimen/font_size_menu_login"
+                    android:windowSoftInputMode="adjustResize" />
+            </LinearLayout>
+
+            <!-- Phone field -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="10" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.5"
+                    android:text="@string/requirephoneReg"
+                    android:textSize="@dimen/font_size_menu_login"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10" >
+
+                <EditText
+                    android:id="@+id/input_phone_reg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="9"
+                    android:ems="10"
+                    android:hint="@string/requirephoneReg"
+                    android:inputType="text|number"
+                    android:textSize="@dimen/font_size_menu_login"
+                    android:windowSoftInputMode="adjustResize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="10" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.5"
+                    android:text="@string/requireconfirmphoneReg"
+                    android:textSize="@dimen/font_size_menu_login"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="10" >
+
+                <EditText
+                    android:id="@+id/input_phone_reg_confirm"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="9"
+                    android:ems="10"
+                    android:hint="@string/requireconfirmphoneReg"
+                    android:inputType="text|number"
+                    android:textSize="@dimen/font_size_menu_login"
+                    android:windowSoftInputMode="adjustResize" />
+            </LinearLayout>
+            <!-- Gender field -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="10" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.5"
+                    android:text="@string/requiregender"
+                    android:textSize="@dimen/font_size_menu_login"
+                    android:textStyle="bold"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="10" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="right"
+                    android:textSize="@dimen/font_size_menu" />
+
+                <Spinner
+                    android:id="@+id/spinner_gender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="3.3"
+                    android:ems="10"
+                    android:inputType="text|number"
+                    android:textSize="@dimen/font_size_menu"
+                    android:windowSoftInputMode="adjustResize" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="10" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8.5"
+                    android:text="@string/requirebirthday"
+                    android:textSize="@dimen/font_size_menu_login"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <!-- Birthday field -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="10" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="right"
+                    android:textSize="@dimen/font_size_menu" />
+
+                <EditText
+                    android:id="@+id/edit_yeard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="3.3"
+                    android:ems="10"
+                    android:hint="@string/yeardtexthint"
+                    android:inputType="text|number"
+                    android:textSize="@dimen/font_size_menu"
+                    android:windowSoftInputMode="adjustResize" />
+
+                <Spinner
+                    android:id="@+id/spinner_month"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="2.8"
+                    android:ems="10"
+                    android:inputType="text|number"
+                    android:textSize="@dimen/font_size_menu"
+                    android:windowSoftInputMode="adjustResize" />
+
+                <Spinner
+                    android:id="@+id/spinner_day"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="2.85"
+                    android:ems="10"
+                    android:inputType="text|number"
+                    android:textSize="@dimen/font_size_menu"
+                    android:windowSoftInputMode="adjustResize" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.2" />
+            <!-- Submit field -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.8"
+                android:gravity="center_horizontal"
+                android:weightSum="10" >
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="8.8"
+                    android:background="@color/black"
+                    android:onClick="Submit"
+                    android:text="@string/submitReg"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_menu" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

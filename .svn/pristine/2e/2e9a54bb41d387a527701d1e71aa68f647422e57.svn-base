@@ -1,0 +1,97 @@
+package fragment;
+
+import java.util.ArrayList;
+
+import object.Coupon;
+
+import com.android.activity.CouponDetailActivity;
+import com.ctyprosoft.tmg.R;
+
+import adapter.AdapterCoupon;
+import android.app.ActionBar;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+
+
+public class CouponHisExpiraFragment extends Fragment implements OnItemClickListener{
+	Context context = getActivity();
+	AdapterCoupon adapter;
+	ArrayList<String> array_no,array_name,array_value;
+	ListView lv ;
+	View rootView;
+	ArrayList<Coupon> array;
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		rootView = inflater.inflate(R.layout.activity_coupon, container, false);
+		
+		initArrayListView();
+		initListView();
+		
+		return rootView;
+	}
+	private void initListView()
+	{
+		lv = (ListView)rootView.findViewById(R.id.lv_coupon);
+		adapter = new AdapterCoupon(context,array);
+		lv.setAdapter(adapter);
+		lv.setOnItemClickListener(this);
+	}
+	private void initArrayListView()
+	{
+		array_no = new ArrayList<String>();
+		array_name = new ArrayList<String>();
+		array_value = new ArrayList<String>();
+		String[] name = {
+	            "Registration Reward ",
+	            "50.000d Voucher",
+	            "100.000d Voucher",
+	            "30% Off",
+	            "20.000d Voucher",
+	            "Registration Reward ",
+	            "50.000d Voucher",
+	            "100.000d Voucher",
+	            "30% Off",
+	            "20.000d Voucher"
+	        };
+		String[] value = {
+	            "10% Off",
+	            "50.000d",
+	            "100.000d",
+	            "30% Off",
+	            "20.000d",
+	            "10% Off",
+	            "50.000d",
+	            "100.000d",
+	            "30% Off",
+	            "20.000d"
+	        };
+		for(int i = 0; i < 10; i++)
+		{
+			array_no.add(String.valueOf(i));
+		}
+		for(int i = 0;i < name.length;i ++)
+		{
+			array_name.add(name[i]);
+		}
+		for(int i = 0;i < value.length;i ++)
+		{
+			array_value.add(value[i]);
+		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
+//		startActivity(new Intent(getActivity().getBaseContext(),CouponDetailActivity.class));
+	}
+}

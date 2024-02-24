@@ -1,0 +1,364 @@
+package com.android.activity;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import object.City;
+import object.Location_Shop;
+import object.Stores;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import adapter.AdapterNearByCity;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+
+import com.ctyprosoft.tmg.GoogleMapActivity;
+import com.ctyprosoft.tmg.R;
+
+import eu.erikw.PullToRefreshListView;
+
+public class ListNearByCityActivity extends Activity {
+	Context context = this;
+	int firstVisiblePosition;
+	int visibleItem;
+	int totalItem;
+	ArrayList<Stores> array;
+	public static Resources res;
+
+	AdapterNearByCity adapter;
+	PullToRefreshListView lv;
+
+	// private ArrayList<Location_Shop> shops;
+	ArrayList<String> arraycity;
+
+	private ArrayList<City> cities;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_list_nearby);
+
+		// shops = GoogleMapActivity.locations;
+
+		new HttpRequestGetListCity()
+				.execute("http://tmg.ctyprosoft.com:81/API/City/GetCityList.aspx");
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(android.view.MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+
+		default:
+			break;
+		}
+		// TODO Auto-generated method stub
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void innitAdapterLv() {
+		lv = (PullToRefreshListView) findViewById(R.id.listView);
+		adapter = new AdapterNearByCity(context, array);
+		lv.setAdapter(adapter);
+		lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
+					long arg3) {
+				Intent i = new Intent(ListNearByCityActivity.this,
+						GoogleMapActivity.class);
+				i.putExtra("pos", pos + "");
+				startActivity(i);
+
+			}
+		});
+
+	}
+
+	private void addDataForNewsPage() {
+
+		array = new ArrayList<Stores>();
+		for (int i = 0; i < GoogleMapActivity.locations.size(); i++) {
+			array.add(new Stores(GoogleMapActivity.locations.get(i)
+					.getmStoreName(), GoogleMapActivity.locations.get(i)
+					.getmAddress(), GoogleMapActivity.locations.get(i)
+					.getmDistance(), GoogleMapActivity.locations.get(i)
+					.getmLogo()));
+		}
+
+	}
+
+	/**
+	 * To init action bar
+	 */
+	private void initActionBar() {
+		// configure action bar
+		// action bar
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		int n = cities.size();
+		final String[] entries = new String[n];
+
+		for (int i = 0; i < cities.size(); i++) {
+			entries[i] = cities.get(i).getName();
+		}
+
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_dropdown_item, entries);
+
+		Spinner spinner = new Spinner(this);
+		spinner.setAdapter(adapter);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View v, int pos,
+					long id) {
+				new HttpRequestSearchStoreListById()
+						.execute("http://tmg.ctyprosoft.com:81/API/Stores/SearchStoreList.aspx?cityid="
+								+ cities.get(pos).getID());
+
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+
+		// configure custom view
+		LinearLayout listNavLayout = new LinearLayout(this);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		params.gravity = Gravity.CENTER;
+		listNavLayout.addView(spinner, params);
+		listNavLayout.setGravity(Gravity.RIGHT); // <-- align the spinner to the
+													// right
+
+		// configure action bar
+		actionBar.setCustomView(listNavLayout, new ActionBar.LayoutParams(
+				Gravity.RIGHT));
+		actionBar.setDisplayShowCustomEnabled(true);
+	}
+
+	/**
+	 * To get List Store by city id
+	 * 
+	 * @author My PC
+	 * 
+	 */
+	private class HttpRequestGetListCity extends
+			AsyncTask<String, String, String> {
+		private ProgressDialog progressDialog;
+
+		private HttpRequestGetListCity() {
+			progressDialog = new ProgressDialog(ListNearByCityActivity.this);
+			progressDialog = ProgressDialog.show(ListNearByCityActivity.this,
+					"", "Loading...");
+		}
+
+		@Override
+		protected String doInBackground(String... uri) {
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpResponse response;
+			String responseString = null;
+			try {
+				response = httpclient.execute(new HttpGet(uri[0]));
+				StatusLine statusLine = response.getStatusLine();
+				if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+					ByteArrayOutputStream out = new ByteArrayOutputStream();
+					response.getEntity().writeTo(out);
+					out.close();
+					responseString = out.toString();
+				} else {
+					// Closes the connection.
+					response.getEntity().getContent().close();
+					throw new IOException(statusLine.getReasonPhrase());
+				}
+			} catch (ClientProtocolException e) {
+				// TODO Handle problems..
+			} catch (IOException e) {
+				// TODO Handle problems..
+			}
+			return responseString;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+
+			try {
+				JSONArray jsonArray = new JSONArray(result);
+
+				// init locations
+				initCity(jsonArray);
+
+				initActionBar();
+
+				progressDialog.dismiss();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	/**
+	 * To get List Store by city id
+	 * 
+	 * @author My PC
+	 * 
+	 */
+	private class HttpRequestSearchStoreListById extends
+			AsyncTask<String, String, String> {
+		private ProgressDialog progressDialog;
+
+		private HttpRequestSearchStoreListById() {
+			progressDialog = new ProgressDialog(ListNearByCityActivity.this);
+			progressDialog = ProgressDialog.show(ListNearByCityActivity.this,
+					"", "Loading...");
+		}
+
+		@Override
+		protected String doInBackground(String... uri) {
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpResponse response;
+			String responseString = null;
+			try {
+				response = httpclient.execute(new HttpGet(uri[0]));
+				StatusLine statusLine = response.getStatusLine();
+				if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+					ByteArrayOutputStream out = new ByteArrayOutputStream();
+					response.getEntity().writeTo(out);
+					out.close();
+					responseString = out.toString();
+				} else {
+					// Closes the connection.
+					response.getEntity().getContent().close();
+					throw new IOException(statusLine.getReasonPhrase());
+				}
+			} catch (ClientProtocolException e) {
+				// TODO Handle problems..
+			} catch (IOException e) {
+				// TODO Handle problems..
+			}
+			return responseString;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+
+			try {
+				JSONArray jsonArray = new JSONArray(result);
+
+				// init locations
+				initLocation_Shop(jsonArray);
+
+				// Show list view
+				addDataForNewsPage();
+
+				innitAdapterLv();
+
+				progressDialog.dismiss();
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	private void initCity(JSONArray jsonArray) {
+		cities = new ArrayList<City>();
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject jsonObject;
+			try {
+				jsonObject = jsonArray.getJSONObject(i);
+
+				int mID = jsonObject.getInt("ID");
+				String mName = jsonObject.getString("Name");
+
+				cities.add(new City(mID, mName));
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void initLocation_Shop(JSONArray jsonArray) {
+		// TODO Auto-generated method stub
+		GoogleMapActivity.locations = new ArrayList<Location_Shop>();
+		Log.d("TAG", "jsonArray size: " + jsonArray.length());
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject jsonObject;
+			try {
+				jsonObject = jsonArray.getJSONObject(i);
+
+				int mID = jsonObject.getInt("ID");
+				int mBrandID = jsonObject.getInt("BrandID");
+				int mCityID = jsonObject.getInt("CityID");
+				int mValid = jsonObject.getInt("Valid");
+
+				// double mDistance = jsonObject.getDouble("Distance");
+				double mGeoX = Double.parseDouble(jsonObject.getString("GeoX"));
+				double mGeoY = Double.parseDouble(jsonObject.getString("GeoY"));
+
+				String mBrandName = jsonObject.getString("BrandName");
+				String mStoreName = jsonObject.getString("StoreName");
+				String mAddress = jsonObject.getString("Address");
+				String mPhone = jsonObject.getString("Phone");
+				String mCityName = jsonObject.getString("CityName");
+				String mLogo = jsonObject.getString("Logo");
+
+				GoogleMapActivity.locations.add(new Location_Shop(mID,
+						mBrandID, mCityID, mValid, 0.0, mGeoX, mGeoY,
+						mBrandName, mStoreName, mAddress, mPhone, mCityName,
+						mLogo));
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+}

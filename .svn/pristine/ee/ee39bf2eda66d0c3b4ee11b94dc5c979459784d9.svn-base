@@ -1,0 +1,728 @@
+package com.android.activity;
+
+import java.util.ArrayList;
+
+import object.RowItem;
+import prosoft.android.utility.SharePreferance;
+import adapter.CustomListViewAdapter;
+import adapter.TabsPagerAdapter;
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Toast;
+
+//import com.ctyprosoft.tmg.GoogleMapActivity;
+import com.ctyprosoft.tmg.LoginMenuActivity;
+import com.ctyprosoft.tmg.R;
+import com.facebook.FacebookException;
+import com.facebook.FacebookOperationCanceledException;
+import com.facebook.LoginActivity;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.WebDialog;
+import com.slidingmenu.lib.SlidingMenu;
+
+@SuppressLint("NewApi")
+public class MainActivity extends FragmentActivity implements
+		OnItemClickListener, TabListener, OnClickListener {
+	Context context = this;
+	private Dialog view;
+	private ImageView hospital;
+	static Boolean isTranslating = false;
+	private ImageView office;
+	private ImageView fire;
+	private AnimationSet hospital_set;
+	private AnimationSet office_set;
+	private AnimationSet fire_set;
+	private FragmentManager fragmentManager;
+	// /////////////////////////////////////////////////////////
+	// ListView of LeftMenu
+	// /////////////////////////////////////////////////////////
+	public static String[] contents;
+
+//	public static final Integer[] images = {
+//			R.drawable.username,
+//			R.drawable.ic_launcher,
+//			R.drawable.ic_launcher,
+//			R.drawable.home,
+//			R.drawable.ic_launcher,
+//			R.drawable.ic_launcher,
+//			R.drawable.coupons,
+//			R.drawable.game,
+//			R.drawable.monila_campaign,// 7
+//			R.drawable.ic_launcher,
+//			R.drawable.ic_launcher,
+//			R.drawable.john_henry,
+//			R.drawable.aino_sofia,
+//			R.drawable.farah_vintage,// 11
+//			R.drawable.ic_launcher,
+//			R.drawable.ic_launcher,
+//			R.drawable.search_icon,
+//			R.drawable.location_icon,// 15
+//			R.drawable.ic_launcher,
+//			R.drawable.ic_launcher,
+//			R.drawable.purchase_historry,
+//			R.drawable.coupon_history,// 19
+//			R.drawable.notification_history,
+//			R.drawable.ic_launcher,
+//			R.drawable.ic_launcher,
+//			R.drawable.setting_icon,// 23
+//			R.drawable.english_icon, R.drawable.share_icon,
+//			R.drawable.customer_service,
+//			R.drawable.signout_icon,// 27
+//			R.drawable.ic_launcher, R.drawable.ic_launcher,
+//			R.drawable.ic_launcher, R.drawable.ic_launcher,// 31
+//	};
+//
+//	// true for header
+//	public static final boolean[] isHeader = { false, false, false, true,
+//			false, false,
+//			false,// 7
+//			false, false, false, false, false, false, false, false,
+//			false, // 16
+//			false, false, false, false, false, false, false, false, false,
+//			false, false, false, false, false, false, false, false, false };
+
+	private ListView listView;
+	private ArrayList<RowItem> rowItems;
+	private SlidingMenu menu;
+
+	// /////////////////////////////////////////////////////////
+	// Action Bar Tabs
+	// /////////////////////////////////////////////////////////
+	private ViewPager viewPager;
+	private TabsPagerAdapter mAdapter;
+	private ActionBar actionBar;
+	// Tab titles
+	private String[] tabs = { "Top Rated", "Games", "Movies" };
+	private Integer[] tabs_image = { R.drawable.android_johnhenry,
+			R.drawable.android_ainosofia, R.drawable.farah_logo };
+	LinearLayout frag_container;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		initSlidingMenu();
+		initActionbarTabs();
+
+		/*
+		 * fragmentManager = getFragmentManager(); frag_container =
+		 * (LinearLayout) findViewById(R.id.fragment_container);
+		 * fragmentManager.beginTransaction() .replace(R.id.fragment_container,
+		 * new MemberFragment()).commit();
+		 */
+
+	}
+
+	/*
+	 * To init all values of Actionbar Tabs
+	 */
+	private void initActionbarTabs() {
+		// Initilization
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		actionBar = getActionBar();
+		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+		viewPager.setAdapter(mAdapter);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		// Adding Tabs
+		for (Integer tab_images : tabs_image) {
+			actionBar.addTab(actionBar.newTab().setIcon(tab_images)
+					.setTabListener(this));
+		}
+
+		/**
+		 * on swiping the viewpager make respective tab selected
+		 * */
+		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int position) {
+				// on changing the page
+				// make respected tab selected
+				actionBar.setSelectedNavigationItem(position);
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
+	}
+
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+
+		viewPager.setCurrentItem(tab.getPosition());
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * To init all values for SlidingMenu
+	 */
+	private void initSlidingMenu() {
+		android.app.ActionBar ab = getActionBar();
+		ab.setHomeButtonEnabled(true);
+		ab.setDisplayHomeAsUpEnabled(true);
+		menu = new SlidingMenu(this);
+		menu.setMode(SlidingMenu.LEFT);
+		menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+		menu.setShadowWidthRes(R.dimen.shadow_width);
+		menu.setShadowDrawable(R.drawable.sliding_menu_shadow);
+		// menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+		menu.setBehindOffset(100);
+		menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
+		menu.setMenu(R.layout.menu);
+		// menu.setSlidingEnabled(true);
+
+		setListviewLeftMenu();
+	}
+
+	private void setListviewLeftMenu() {
+		contents = getResources().getStringArray(R.array.list_drawer_array);
+		rowItems = new ArrayList<RowItem>();
+		initRowItem();
+		/////////////////////////////////////////////////
+		// Check the AD List and then add it into rowItems at position 6
+		
+		rowItems.add(6, new RowItem(MainActivity.class, R.drawable.monila_campaign, "Get Mobile Ad List1", false));
+		rowItems.add(6, new RowItem(MainActivity.class, R.drawable.monila_campaign, "Get Mobile Ad List2", false));
+		rowItems.add(6, new RowItem(MainActivity.class, R.drawable.monila_campaign, "Get Mobile Ad List3", false));
+//		for (int i = 0; i < contents.length; i++) {
+//			RowItem item = new RowItem(images[i], contents[i], isHeader[i]);
+//			rowItems.add(item);
+//		}
+
+		listView = (ListView) findViewById(R.id.list);
+		CustomListViewAdapter adapter = new CustomListViewAdapter(this,
+				R.layout.list_item, rowItems);
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(this);
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, final int pos,
+			long id) {
+		// To close SlidingMenu if it is opening
+		if (menu.isMenuShowing())
+			menu.toggle();
+		
+		// logoutFace();
+		SharePreferance share = new SharePreferance(context);
+		share.setStatusLogged(false);
+		Toast toast = Toast.makeText(getApplicationContext(), "Item "
+				+ (pos + 1) + ": " + rowItems.get(pos).getContent() + " Id: "
+				+ id, Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+		toast.show();
+		
+		
+		for (int a = 0; a < listView.getChildCount(); a++) {
+			listView.getChildAt(a).setBackgroundColor(Color.WHITE);
+		}
+
+		view.setBackgroundColor(Color.GRAY);
+		
+		menu.postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(context, rowItems.get(pos).getIntentClass()));
+				if (pos == (rowItems.size()-1)) finish();
+			}
+		}, 200);
+
+	}
+
+	private void inviteFriend() {
+		WebDialog.RequestsDialogBuilder requests = new WebDialog.RequestsDialogBuilder(
+				MainActivity.this, Session.getActiveSession());// , params);
+		requests.setTitle("wkhseiwu");
+		requests.setMessage("Let use app with me");
+		requests.setOnCompleteListener(new WebDialog.OnCompleteListener() {
+			@Override
+			public void onComplete(Bundle values, FacebookException error) {
+				if (error != null) {
+					if (error instanceof FacebookOperationCanceledException) {
+						Toast.makeText(MainActivity.this, "Request cancelled",
+								Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(MainActivity.this, "Network Error",
+								Toast.LENGTH_SHORT).show();
+					}
+				} else {
+					final String requestId = values.getString("request");
+					if (requestId != null) {
+						// Toast.makeText(getActivity(), "Request sent",
+						// Toast.LENGTH_SHORT).show();
+
+					} else {
+						Toast.makeText(MainActivity.this, "Request cancelled",
+								Toast.LENGTH_SHORT).show();
+					}
+				}
+			}
+		});
+		WebDialog dialog = requests.build();
+		dialog.show();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(android.view.MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			menu.toggle();
+			break;
+
+		default:
+			break;
+		}
+		// TODO Auto-generated method stub
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (menu.isMenuShowing())
+			menu.toggle();
+		else
+			super.onBackPressed();
+	}
+
+	private void logoutFace() {
+		// find the active session which can only be facebook in my app
+		Session session = Session.getActiveSession();
+		if (session != null) {
+			// run the closeAndClearTokenInformation which does the following
+			// DOCS : Closes the local in-memory Session object and clears any
+			// persistent
+			// cache related to the Session.
+			session.closeAndClearTokenInformation();
+			// return the user to the login screen
+			startActivity(new Intent(getApplicationContext(),
+					LoginActivity.class));
+			startActivity(new Intent(context, LoginMenuActivity.class));
+			// make sure the user can not access the page after he/she is logged
+			// out
+			// clear the activity stack
+			finish();
+		}
+
+	}
+
+	private void invite() {
+		Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+			// callback when session changes state
+			@SuppressWarnings("deprecation")
+			@Override
+			public void call(Session session, SessionState state,
+					Exception exception) {
+				if (session.isOpened()) {
+
+					// make request to the /me API
+					Request.executeMeRequestAsync(session,
+							new Request.GraphUserCallback() {
+
+								// callback after Graph API response with user
+								// object
+								@Override
+								public void onCompleted(GraphUser user,
+										Response response) {
+									if (user != null) {
+										inviteFriend();
+
+									} else {
+										System.out.println("user == null ");
+									}
+								}
+							});
+				}
+			}
+		});
+	}
+
+	private void dialogCall() {
+
+		view = new Dialog(context);
+
+		view.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		view.setContentView(R.layout.custom_dialog);
+		initButtons();
+		view.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+		// set the custom dialog components - text, image and button
+
+		// if button is clicked, close the custom dialog
+
+		view.show();
+	}
+
+	public void initButtons() {
+		hospital = (ImageView) view.findViewById(R.id.iv_emergency_hospital);
+		office = (ImageView) view.findViewById(R.id.iv_emergency_office);
+		fire = (ImageView) view.findViewById(R.id.iv_emergency_fire);
+
+		if (hospital != null)
+			hospital.setOnClickListener(this);
+		if (office != null)
+			office.setOnClickListener(this);
+		if (fire != null)
+			fire.setOnClickListener(this);
+
+		// hospital.setVisibility(View.INVISIBLE);
+		// office.setVisibility(View.INVISIBLE);
+		// fire.setVisibility(View.INVISIBLE);
+
+		int mid_height = context.getResources().getDimensionPixelSize(
+				R.dimen.emergency_mid_height);
+		int horizolfrommid = context.getResources().getDimensionPixelSize(
+				R.dimen.emergency_horizol_from_mid);
+		int verticalfrommid = context.getResources().getDimensionPixelSize(
+				R.dimen.emergency_vertical_from_mid);
+		int size = context.getResources().getDimensionPixelSize(
+				R.dimen.emergency_size);
+		mid_height += size;
+		horizolfrommid += size;
+		int duration = 800;
+
+		TranslateAnimation mid_trans_anim = new TranslateAnimation(0, 0,
+				mid_height, 0);
+		mid_trans_anim.setStartOffset(0);
+		mid_trans_anim.setDuration(duration);
+
+		TranslateAnimation left_trans_anim = new TranslateAnimation(
+				horizolfrommid, 0, mid_height - verticalfrommid, 0);
+		left_trans_anim.setStartOffset(0);
+		left_trans_anim.setDuration(duration);
+
+		TranslateAnimation right_trans_anim = new TranslateAnimation(
+				-horizolfrommid, 0, mid_height - verticalfrommid, 0);
+		right_trans_anim.setStartOffset(0);
+		right_trans_anim.setDuration(duration);
+
+		Animation rot_anim = new RotateAnimation(0f, 360f,
+				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+				0.5f);
+		rot_anim.setStartOffset(0);
+		rot_anim.setDuration(duration);
+
+		Animation scale_anim = new ScaleAnimation(0.1f, 1.0f, 0.1f, 1.0f,
+				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+				0.5f);
+		scale_anim.setStartOffset(0);
+		scale_anim.setDuration(duration);
+
+		hospital_set = new AnimationSet(false);
+		hospital_set.addAnimation(rot_anim);
+		hospital_set.addAnimation(scale_anim);
+		hospital_set.addAnimation(mid_trans_anim);
+		hospital_set.setFillAfter(true);
+		hospital_set.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO Auto-generated method stub
+				isTranslating = true;
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// TODO Auto-generated method stub
+				isTranslating = false;
+			}
+		});
+		hospital.startAnimation(hospital_set);
+
+		office_set = new AnimationSet(false);
+		office_set.addAnimation(rot_anim);
+		office_set.addAnimation(scale_anim);
+		office_set.addAnimation(left_trans_anim);
+		office_set.setFillAfter(true);
+		office.startAnimation(office_set);
+
+		fire_set = new AnimationSet(false);
+		fire_set.addAnimation(rot_anim);
+		fire_set.addAnimation(scale_anim);
+		fire_set.addAnimation(right_trans_anim);
+		fire_set.setFillAfter(true);
+		fire.startAnimation(fire_set);
+	}
+
+	public void closeButtons() {
+		view.dismiss();
+		if (hospital_set == null || office_set == null || fire_set == null)
+			return;
+
+		hospital.clearAnimation();
+		fire.clearAnimation();
+		office.clearAnimation();
+
+		int mid_height = context.getResources().getDimensionPixelSize(
+				R.dimen.emergency_mid_height);
+		int horizolfrommid = context.getResources().getDimensionPixelSize(
+				R.dimen.emergency_horizol_from_mid);
+		int verticalfrommid = context.getResources().getDimensionPixelSize(
+				R.dimen.emergency_vertical_from_mid);
+		int size = context.getResources().getDimensionPixelSize(
+				R.dimen.emergency_size);
+		mid_height += size;
+		horizolfrommid += size;
+		int duration = 800;
+
+		TranslateAnimation mid_trans_anim = new TranslateAnimation(0, 0, 0,
+				mid_height);
+		mid_trans_anim.setStartOffset(0);
+		mid_trans_anim.setDuration(duration);
+
+		TranslateAnimation left_trans_anim = new TranslateAnimation(0,
+				horizolfrommid, 0, mid_height - verticalfrommid);
+		left_trans_anim.setStartOffset(0);
+		left_trans_anim.setDuration(duration);
+
+		TranslateAnimation right_trans_anim = new TranslateAnimation(0,
+				-horizolfrommid, 0, mid_height - verticalfrommid);
+		right_trans_anim.setStartOffset(0);
+		right_trans_anim.setDuration(duration);
+
+		Animation rot_anim = new RotateAnimation(360f, 0f,
+				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+				0.5f);
+		rot_anim.setStartOffset(0);
+		rot_anim.setDuration(duration);
+
+		Animation scale_anim = new ScaleAnimation(1.0f, 0.1f, 1.0f, 0.1f,
+				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+				0.5f);
+		scale_anim.setStartOffset(0);
+		scale_anim.setDuration(duration);
+
+		hospital_set = new AnimationSet(false);
+		hospital_set.addAnimation(rot_anim);
+		hospital_set.addAnimation(scale_anim);
+		hospital_set.addAnimation(mid_trans_anim);
+		hospital_set.setFillAfter(true);
+		hospital_set.setAnimationListener(new AnimationListener() {
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+				// TODO Auto-generated method stub
+				isTranslating = true;
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				// TODO Auto-generated method stub
+				isTranslating = false;
+				hospital.setVisibility(View.INVISIBLE);
+				office.setVisibility(View.INVISIBLE);
+				fire.setVisibility(View.INVISIBLE);
+
+			}
+		});
+		hospital.startAnimation(hospital_set);
+
+		office_set = new AnimationSet(false);
+		office_set.addAnimation(rot_anim);
+		office_set.addAnimation(scale_anim);
+		office_set.addAnimation(left_trans_anim);
+		office_set.setFillAfter(true);
+		office.startAnimation(office_set);
+
+		fire_set = new AnimationSet(false);
+		fire_set.addAnimation(rot_anim);
+		fire_set.addAnimation(scale_anim);
+		fire_set.addAnimation(right_trans_anim);
+		fire_set.setFillAfter(true);
+		fire.startAnimation(fire_set);
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		if (isTranslating)
+			return;
+		String phone = "";
+		switch (v.getId()) {
+		case R.id.iv_emergency_fire:
+			phone = context.getResources().getString(R.string.callhenry);
+			closeButtons();
+			break;
+		case R.id.iv_emergency_hospital:
+			phone = context.getResources().getString(R.string.callainosofia);
+			closeButtons();
+			break;
+		case R.id.iv_emergency_office:
+			phone = context.getResources().getString(R.string.callfara);
+			closeButtons();
+			break;
+		}
+		if (!phone.equals("")) {
+			ShowDialogCall(phone);
+		}
+
+	}
+
+	private void ShowDialogCall(final String phone) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		String msg = "";
+		String yes = "";
+		String cancel = "";
+		/*
+		 * if(TaxiListActivity.getIsEng()) {
+		 * builder.setTitle(context.getResources
+		 * ().getString(R.string.taxilist_CallConfirmation_en)); msg =
+		 * context.getResources
+		 * ().getString(R.string.taxilist_CallConfirmationDesc_en); msg =
+		 * msg.replace("%@", phone); builder.setMessage(msg); yes=
+		 * context.getResources
+		 * ().getString(R.string.taxilist_CallConfirmationYes_en); cancel=
+		 * context
+		 * .getResources().getString(R.string.taxilist_CallConfirmationCancel_en
+		 * ); }else {
+		 */
+		builder.setTitle(context.getResources().getString(
+				R.string.CallConfirmation_vi));
+		msg = context.getResources()
+				.getString(R.string.CallConfirmationDesc_vi);
+		msg = msg.replace("%@", phone);
+		builder.setMessage(msg);
+		yes = context.getResources().getString(R.string.CallConfirmationYes_vi);
+		cancel = context.getResources().getString(
+				R.string.CallConfirmationCancel_vi);
+		// }
+
+		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				Intent callIntent = new Intent(Intent.ACTION_CALL, Uri
+						.parse("tel:" + phone));
+				context.startActivity(callIntent);
+			}
+
+		});
+		builder.setNegativeButton(cancel,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+
+					}
+				});
+		builder.show();
+	}
+
+	/**
+	 * To init values of LeftMenu Listview's item
+	 */
+	private void initRowItem() {
+		rowItems.add(new RowItem(MemberActivity.class, R.drawable.username,
+				contents[0], false));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.ic_launcher,
+				contents[1], true));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.home,
+				contents[2], false));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.ic_launcher,
+				contents[3], true));
+		rowItems.add(new RowItem(CouponActivity.class, R.drawable.coupons,
+				contents[4], false));
+		rowItems.add(new RowItem(SlotMachineActivity.class, R.drawable.game,
+				contents[5], false));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.ic_launcher,
+				contents[6], true));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.john_henry,
+				contents[7], false));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.aino_sofia,
+				contents[8], false));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.farah_vintage,
+				contents[9], false));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.ic_launcher,
+				contents[10], true));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.search_icon,
+				contents[11], false));
+//		rowItems.add(new RowItem(GoogleMapActivity.class, R.drawable.location_icon,
+//				contents[12], false));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.ic_launcher,
+				contents[13], true));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.purchase_historry,
+				contents[14], false));
+		rowItems.add(new RowItem(CouponHisActivity.class, R.drawable.coupon_history,
+				contents[15], false));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.notification_history,
+				contents[16], false));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.ic_launcher,
+				contents[17], true));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.setting_icon,
+				contents[18], false));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.english_icon,
+				contents[19], false));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.share_icon,
+				contents[20], false));
+		rowItems.add(new RowItem(MainActivity.class, R.drawable.customer_service,
+				contents[21], false));
+		rowItems.add(new RowItem(LoginMenuActivity.class, R.drawable.signout_icon,
+				contents[22], false));
+
+	}
+}

@@ -1,0 +1,78 @@
+package prosoft.android.utility;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+/**
+ * @author Gabriele Porcelli
+ * 
+ *         Example. 
+ *         FirstTimePreference prefFirstTime = new FirstTimePreference(getApplicationContext()); 
+ *         if (prefFirstTime.runTheFirstNTimes("myKey" , 3)) {
+ *         Toast.makeText(this,"Test myKey & coutdown: "+ prefFirstTime.getCountDown("myKey"),Toast.LENGTH_LONG).show(); }
+ */
+
+public class SharePreferance {
+
+	public static final String FIRST_TIME_PREFERENCES_KEY = "FirstKeyPreferences";
+	
+	public static final String login = "login";
+	public static final String langu = "language";
+	private static final String user_name = "user";
+	private static final String clickLoginFB = "click";
+	private final SharedPreferences firstTimePreferences;
+
+	public SharePreferance(Context context) {
+		firstTimePreferences = context.getSharedPreferences(
+				FIRST_TIME_PREFERENCES_KEY, Context.MODE_PRIVATE);
+	}
+
+	public void setStatusLogged(Boolean status)
+	{
+		SharedPreferences.Editor editor = firstTimePreferences.edit();
+		editor.putBoolean(login, status);
+		editor.commit();
+	}
+	public boolean getStatusLogged()
+	{
+		return firstTimePreferences.getBoolean(login, false);
+	}
+	
+	public void setStatusLanguage(String value)
+	{
+		SharedPreferences.Editor editor = firstTimePreferences.edit();
+		editor.putString(langu, value);
+		editor.commit();
+	}
+	public boolean getclickLoginFB()
+	{
+		return firstTimePreferences.getBoolean(clickLoginFB, false);
+	}
+	
+	public void setclickLoginFB(Boolean click)
+	{
+		SharedPreferences.Editor editor = firstTimePreferences.edit();
+		editor.putBoolean(clickLoginFB, click);
+		editor.commit();
+	}
+	public String getValueLanguage()
+	{
+		return firstTimePreferences.getString(langu, "");
+	}
+	public void setUserName(String value)
+	{
+		SharedPreferences.Editor editor = firstTimePreferences.edit();
+		editor.putString(user_name, value);
+		editor.commit();
+	}
+	public String getUserName() {
+		return firstTimePreferences.getString(user_name, "");
+	}
+	
+
+
+	
+
+
+
+}

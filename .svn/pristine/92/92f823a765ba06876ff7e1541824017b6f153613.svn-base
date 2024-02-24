@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rl_emergency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/emergency_background"
+         >
+
+        
+
+        <ImageView
+            android:id="@+id/iv_emergency_hospital"
+            android:layout_width="@dimen/emergency_size"
+            android:layout_height="@dimen/emergency_size"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/emergency_mid_height"
+            android:background="@drawable/android_ainosofia"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/iv_emergency_office"
+            android:layout_width="@dimen/emergency_size"
+            android:layout_height="@dimen/emergency_size"
+            android:layout_alignTop="@+id/iv_emergency_hospital"
+            android:layout_marginRight="@dimen/emergency_horizol_from_mid"
+            android:layout_marginTop="@dimen/emergency_vertical_from_mid"
+            android:layout_toLeftOf="@+id/iv_emergency_hospital"
+            android:src="@drawable/android_johnhenry" />
+
+        <ImageView
+            android:id="@+id/iv_emergency_fire"
+            android:layout_width="@dimen/emergency_size"
+            android:layout_height="@dimen/emergency_size"
+            android:layout_alignTop="@+id/iv_emergency_hospital"
+            android:layout_marginLeft="@dimen/emergency_horizol_from_mid"
+            android:layout_marginTop="@dimen/emergency_vertical_from_mid"
+            android:layout_toRightOf="@+id/iv_emergency_hospital"
+            android:src="@drawable/farah_logo" />
+
+    </RelativeLayout>
+
+</LinearLayout>

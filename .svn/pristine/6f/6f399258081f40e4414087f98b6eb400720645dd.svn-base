@@ -1,0 +1,196 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="10" >
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    <!-- Name Field -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="10" >
+        <EditText
+            android:id="@+id/input_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="9"
+            android:ems="10"
+            android:hint="@string/nameReg"
+            android:inputType="text"
+            android:textSize="@dimen/font_size_menu"
+            android:windowSoftInputMode="adjustResize" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.2" />
+    <!-- Email field -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="10" >
+
+        <EditText
+            android:id="@+id/input_email_reg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="9"
+            android:ems="10"
+            android:hint="@string/emailReg"
+            android:inputType="textEmailAddress"
+            android:textSize="@dimen/font_size_menu"
+            android:windowSoftInputMode="adjustResize" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.2" />
+    <!-- Phone field -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <EditText
+            android:id="@+id/input_phone_reg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="9"
+            android:hint="@string/phoneReg"
+            android:ems="10"
+            android:inputType="text|number"
+            android:textSize="@dimen/font_size_menu"
+            android:windowSoftInputMode="adjustResize" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.2" />
+    <!-- Gender field -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="right"
+            android:textSize="@dimen/font_size_menu" />
+
+        <Spinner
+            android:id="@+id/spinner_gender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="3.3"
+            android:ems="10"
+            android:inputType="text|number"
+            android:textSize="@dimen/font_size_menu"
+            android:windowSoftInputMode="adjustResize" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.2" />
+    <!-- Birthday field -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="right"
+            android:textSize="@dimen/font_size_menu" />
+
+        <EditText
+            android:id="@+id/edit_yeard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="3.3"
+            android:ems="10"
+            android:hint="@string/yeardtexthint"
+            android:inputType="text|number"
+            android:textSize="@dimen/font_size_menu"
+            android:windowSoftInputMode="adjustResize" />
+
+        <Spinner
+            android:id="@+id/spinner_month"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="2.5"
+            android:ems="10"
+            android:inputType="text|number"
+            android:textSize="@dimen/font_size_menu"
+            android:windowSoftInputMode="adjustResize" />
+
+        <Spinner
+            android:id="@+id/spinner_day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="2.5"
+            android:ems="10"
+            android:inputType="text|number"
+            android:textSize="@dimen/font_size_menu"
+            android:windowSoftInputMode="adjustResize" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.2" />
+    <!-- Submit field -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:weightSum="10" >
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="8.5"
+            android:onClick="Submit"
+            android:text="@string/submitReg"
+            android:textSize="@dimen/font_size_menu" />
+    </LinearLayout>
+
+</LinearLayout>

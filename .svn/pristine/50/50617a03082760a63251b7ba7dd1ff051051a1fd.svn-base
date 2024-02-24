@@ -1,0 +1,51 @@
+package prosoft.android.utility;
+
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.view.Window;
+
+public class Utility {
+
+	/**
+	 * To check Internet is available or not.
+	 * 
+	 * @return true if Internet is available and else return false
+	 */
+	public static String IdCouponDetail = "idCoupon";
+	public static void showDialog(Context context,String sms)
+	{
+		AlertDialog.Builder builder = new Builder(context);
+		builder.setMessage(sms);
+		builder.setPositiveButton("OK", new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		Dialog dialog = builder.create();
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.show();
+	}
+	public static boolean isInternet(Context context) {
+		ConnectivityManager connManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo mWifi = connManager
+				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		NetworkInfo mMobile = connManager
+				.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		if ((mWifi != null && mWifi.isConnected())
+				|| (mMobile != null && mMobile.isConnected()))
+			return true;
+		return false;
+
+	}
+	
+}

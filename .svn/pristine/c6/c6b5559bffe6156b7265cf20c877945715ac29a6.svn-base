@@ -1,0 +1,124 @@
+package com.android.tmg;
+
+
+import com.android.activity.MainActivity;
+import com.google.android.gcm.GCMRegistrar;
+
+import prosoft.android.utility.SharePreferance;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
+
+public class FlashActivity extends Activity {
+	// change time delay here
+	int time = 500;
+	Handler delay = new Handler();
+	Context context = this;
+	SharePreferance share;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		RelativeLayout layout = new RelativeLayout(this);
+		layout.setLayoutParams(new LayoutParams(
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT));
+		setContentView(layout);
+
+		ImageView img = new ImageView(this);
+		Bitmap icon = BitmapFactory.decodeResource(this.getResources(),
+				R.drawable.launcher_android);
+		img.setImageBitmap(icon);
+		img.setLayoutParams(new LayoutParams(
+				android.widget.RelativeLayout.LayoutParams.MATCH_PARENT,
+				android.widget.RelativeLayout.LayoutParams.MATCH_PARENT));
+		layout.addView(img);
+		
+		// Test GCM
+		registerGCM();
+		
+		//function delay
+		StayHere(time);
+	}
+
+	private void StayHere(int time) {
+		delay.postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				share = new SharePreferance(context);
+				if(share.getStatusLogged())
+				{
+					startActivity(new Intent(context,MainActivity.class));
+					finish();
+				}
+				else
+				{
+					//startActivity(new Intent(context,MainActivity.class));
+					Intent GoMenuPage = new Intent(context, LoginMenuActivity.class);
+					startActivity(GoMenuPage);
+					//End this activity
+					finish();
+				}
+
+			}
+		}, time);
+	}
+	
+	public void registerGCM() {
+		
+
+		// Make sure the device has the proper dependencies.
+		GCMRegistrar.checkDevice(this);
+
+		// Make sure the manifest was properly set - comment out this line
+		// while developing the app, then uncomment it when it's ready.
+		GCMRegistrar.checkManifest(this);
+
+		
+
+		// registerReceiver(mHandleMessageReceiver, new IntentFilter(
+		// DISPLAY_MESSAGE_ACTION));
+
+		// Get GCM registration id
+		final String regId = GCMRegistrar.getRegistrationId(this);
+
+		Log.d("TAG", "Main activity regId :" + regId);
+		// Check if regid already presents
+		if (regId.equals("")) {
+			// Registration is not present, register now with GCM
+			GCMRegistrar.register(this, GCMIntentService.SENDER_ID);
+			Log.d("TAG", "Main activity GCMRegistrar.register(this, SENDER_ID)");
+		} else {
+			Log.d("TAG", "Main activity regId is registered");
+			// Device is already registered on GCM
+			if (GCMRegistrar.isRegisteredOnServer(this)) {
+				// Skips registration.
+				// Toast.makeText(getApplicationContext(),
+				// "Already registered with GCM", Toast.LENGTH_LONG)
+				// .show();
+				Log.d("TAG",
+						"Main activity CMRegistrar.isRegisteredOnServer(this)");
+				return;
+			} else {
+				Log.d("TAG",
+						"Main activity Else CMRegistrar.isRegisteredOnServer(this)");
+				// Try to register again, but not in the UI thread.
+				// It's also necessary to cancel the thread onDestroy(),
+				// hence the use of AsyncTask instead of a raw thread.
+			}
+		}
+	}
+}
